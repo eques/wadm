@@ -11,6 +11,7 @@ import { ExampleComponent } from "./example.component";
 import { ExampleService } from "./example.service";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
+import { MainMenuComponent } from "./main-menu/main-menu.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FooterComponent } from "./footer/footer.component";
 
     HeaderComponent,
     FooterComponent,
+    MainMenuComponent,
 
     ExampleComponent
   ],
