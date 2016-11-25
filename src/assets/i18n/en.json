@@ -2,5 +2,10 @@
   "activate-fidebox": {
     "placeholder-enter_serial_numb": "Enter serial number",
     "button-activate": "Activate"
+  },
+
+  "main-menu": {
+    "link-all_programms": "All loyalties",
+    "link-activate_fidebox": "Activate Fidebox"
   }
 }
