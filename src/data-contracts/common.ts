@@ -11,5 +11,5 @@ export interface UserDTO {
 
 export interface JsonResponse {
     status: string;
-    payload: any;
+    payload: any
 }

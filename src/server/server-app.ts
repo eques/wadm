@@ -1,8 +1,7 @@
 import * as express from "express";
 import * as mongo from "mongodb";
 import { resolve } from "path";
-import { UserDTO } from "./common";
-import { JsonResponse } from "./common";
+import { UserDTO, JsonResponse } from "./common";
 
 const app = express();
 const PORT = process.env.EXPRESS_PORT || 3000;
@@ -159,6 +158,17 @@ app.post("/api/fidebox/activate", (req, res) => {
   var response: JsonResponse = {
     status: "success",
     payload: ""
+  };
+  res.json(response);
+});
+
+// Check for existing fidebox login tokens (ask new from Wapi if necessary) and give it to fidebox
+app.post("/api/fidebox/activate", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Check db for existing fidebox login token and ask Wapi for new one, if necessary
+  var response: JsonResponse = {
+    status: "success",
+    payload: "Some token"
   };
   res.json(response);
 });
