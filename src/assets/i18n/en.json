@@ -1,3 +1,6 @@
 {
-  "hello": "Hello, {{value}}!"
+  "activate-fidebox": {
+    "placeholder-enter_serial_numb": "Enter serial number",
+    "button-activate": "Activate"
+  }
 }
