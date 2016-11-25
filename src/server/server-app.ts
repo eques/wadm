@@ -7,22 +7,22 @@ const app = express();
 const PORT = process.env.EXPRESS_PORT || 3000;
 
 if (process.env.NODE_ENV === "development") {
-  app.use(express.static(resolve(__dirname, '..', 'dist-dev')));
-  app.use(express.static(resolve(__dirname, '..')));
+  app.use(express.static(resolve(__dirname, "..", "dist-dev")));
+  app.use(express.static(resolve(__dirname, "..")));
 } else {
 
-  //    app.use(express.static(resolve(__dirname,'..','dist')));
-  app.use(express.static(resolve(__dirname, '..', 'dist-dev')));
-  app.use(express.static(resolve(__dirname, '..')));
+  //    app.use(express.static(resolve(__dirname,"..","dist")));
+  app.use(express.static(resolve(__dirname, "..", "dist-dev")));
+  app.use(express.static(resolve(__dirname, "..")));
 }
 
 var MongoClient = mongo.MongoClient;
 
-MongoClient.connect('mongodb://localhost:27017/animals', function(err, db) {
+MongoClient.connect("mongodb://localhost:27017/animals", function(err, db) {
   if (err) {
     throw err;
   }
-  db.collection('mammals').find().toArray(function(err, result) {
+  db.collection("mammals").find().toArray(function(err, result) {
     if (err) {
       throw err;
     }
