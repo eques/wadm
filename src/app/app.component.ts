@@ -4,11 +4,12 @@ import { TranslateService } from "ng2-translate/ng2-translate";
 @Component({
   selector: "my-app",
   template: `
-      <header>header</header>
+      <wheader></wheader>
       <main id="content">
-          <router-outlet></router-outlet>
+        <main-menu></main-menu>
+        <router-outlet></router-outlet>
       </main>
-      <footer>footer</footer>
+      <wfooter></wfooter>
 `
 })
 export class AppComponent implements OnInit {
