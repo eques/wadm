@@ -12,6 +12,7 @@ import { ExampleService } from "./example.service";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { MainMenuComponent } from "./main-menu/main-menu.component";
+import { ProgrammModule } from "./programms/programm.module";
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import { MainMenuComponent } from "./main-menu/main-menu.component";
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule,
     RouterModule.forRoot(Object.keys(routes).map((k) => routes[k])),
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+
+    ProgrammModule
   ],
   bootstrap: [AppComponent],
 })
