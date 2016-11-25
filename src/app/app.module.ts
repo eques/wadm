@@ -13,6 +13,7 @@ import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { MainMenuComponent } from "./main-menu/main-menu.component";
 import { ProgrammModule } from "./programms/programm.module";
+import { FideboxModule } from "./fidebox/fidebox.module";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ProgrammModule } from "./programms/programm.module";
     RouterModule.forRoot(Object.keys(routes).map((k) => routes[k])),
     SharedModule.forRoot(),
 
+    FideboxModule,
     ProgrammModule
   ],
   bootstrap: [AppComponent],
