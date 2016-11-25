@@ -1,22 +1,23 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
-import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { HashLocationStrategy, LocationStrategy, CommonModule } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
 import { ActivateFideboxComponent } from "./activate-fidebox.component";
 import { fideboxRoutes } from "./fidebox-routes";
+import { FideboxService } from "./fidebox.service";
 
 @NgModule({
   declarations: [
     ActivateFideboxComponent
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy }
+    {provide: LocationStrategy, useClass: HashLocationStrategy },
+    FideboxService
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpModule,
     FormsModule,
     RouterModule.forChild([fideboxRoutes.moduleRoot]),
