@@ -1,7 +1,11 @@
 {
   "activate-fidebox": {
     "placeholder-enter_serial_numb": "Enter serial number",
-    "button-activate": "Activate"
+    "text-successful_activation": "Few words about how incredible you are",
+    "text-failed_activation": "Cheer up! (yep... fail)",
+
+    "button-activate": "Activate",
+    "button-reset": "One more time"
   },
 
   "main-menu": {

@@ -12,8 +12,9 @@ import { FideboxService } from "./fidebox.service";
         <button type="submit">{{"activate-fidebox.button-activate" | translate}}</button>
       </div>
       <div *ngIf="regFidebox?.submitted">
-        <div *ngIf="response?.status === 200">success</div>
-        <div *ngIf="response?.status !== 200">fail</div>
+        <div *ngIf="response?.status === 200">{{"activate-fidebox.text-successful_activation" | translate}}</div>
+        <div *ngIf="response?.status !== 200">{{"activate-fidebox.text-failed_activation" | translate}}</div>
+        <button type="reset">{{"activate-fidebox.button-reset" | translate}}</button>
       </div>
     </form>
   </div>
