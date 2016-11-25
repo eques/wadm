@@ -1,9 +1,15 @@
 import * as express from "express";
 import * as mongo from "mongodb";
 import { resolve } from "path";
-import { UserDTO, JsonResponse } from "./common";
+import { JsonResponse } from "./common";
+var body_parser = require("body-parser");
+var request = require('request');
+const dev_key = "fidebox123456789012345";
 
 const app = express();
+app.use(body_parser.urlencoded({extended : true}));
+app.use(body_parser.json());
+
 const PORT = process.env.EXPRESS_PORT || 3000;
 
 if (process.env.NODE_ENV === "development") {
@@ -36,18 +42,28 @@ app.post("/some-api/test", (req, res) => {
 
 // Creates new business, admin and fidebox users, save info about business in database
 app.post("/api/business/register", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to create new auth record
   // TODO Create for auth record new user and business inside this user
   // TODO Ask Wapi to create another auth record with generated username and password
   // TODO Create user for fidebox sessions
   // TODO Save info about business and fidebox user in database
-
-  var response: JsonResponse = {
-    status: "success",
-    payload: ""
+  var wapi_uri = "http://api2.walmoo.com/resources/wal-core/auths/register";
+  var wapi_data = {
+    devKey: dev_key,
+    username: req.body.username,
+    password: req.body.password
   };
-  res.json(response);
+  var options = {
+    uri: wapi_uri,
+    method: 'POST',
+    json: wapi_data
+  };
+  request(options, function(err, httpResponse, body){
+    var response: JsonResponse = {
+      status: "success",
+      payload: ""
+    };
+    res.json(response);
+  });
 });
 
 // Logs in user in Wapi and gets token for further requests
