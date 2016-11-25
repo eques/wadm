@@ -2,6 +2,7 @@ import * as express from "express";
 import * as mongo from "mongodb";
 import { resolve } from "path";
 import { UserDTO } from "./common";
+import { JsonResponse } from "./common";
 
 const app = express();
 const PORT = process.env.EXPRESS_PORT || 3000;
@@ -71,7 +72,95 @@ function has(x, y) {
 }
 
 app.post("/some-api/test", (req, res) => {
-  res.json({hello: "api"});
+  var response: JsonResponse = {
+    status: "success",
+    payload: "Hello from api"
+  };
+  res.json(response);
+});
+
+// Creates new business, admin and fidebox users, save info about business in database
+app.post("/api/business/register", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to create new auth record
+  // TODO Create for auth record new user and business inside this user
+  // TODO Ask Wapi to create another auth record with generated username and password
+  // TODO Create user for fidebox sessions
+  // TODO Save info about business and fidebox user in database
+
+  var response: JsonResponse = {
+    status: "success",
+    payload: ""
+  };
+  res.json(response);
+});
+
+// Logs in user in Wapi and gets token for further requests
+app.post("/api/business/login", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to log in user and get token
+  // TODO Save token and mark user authenticated
+  var response: JsonResponse = {
+    status: "success",
+    payload: {}
+  };
+  res.json(response);
+});
+
+// Create new program in Wapi with partnership and rule
+app.post("/api/program/create", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to create new program with partnership, correct rule and custom field
+  var response: JsonResponse = {
+    status: "success",
+    payload: {}
+  };
+  res.json(response);
+});
+
+// Create new program in Wapi with partnership and rule
+app.post("/api/program/edit", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to save existing program data
+  var response: JsonResponse = {
+    status: "success",
+    payload: {}
+  };
+  res.json(response);
+});
+
+// Deletes existing program
+app.post("/api/program/delete", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to delete program
+  var response: JsonResponse = {
+    status: "success",
+    payload: ""
+  };
+  res.json(response);
+});
+
+// Gets list of all business programs from Wapi
+app.post("/api/program/list", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi for all business programs
+  var response: JsonResponse = {
+    status: "success",
+    payload: []
+  };
+  res.json(response);
+});
+
+// Ask Wapi to create device and terminal for fidebox and save it to database
+app.post("/api/fidebox/activate", (req, res) => {
+  // TODO Get chosen dev key
+  // TODO Ask Wapi to create device and terminal
+  // TODO Save data about fidebox to database
+  var response: JsonResponse = {
+    status: "success",
+    payload: ""
+  };
+  res.json(response);
 });
 
 fs.readFile("/tmp/myapp.json", "utf8", (e, data) => {
