@@ -12,6 +12,6 @@ export class ExampleService extends GeneralHttpService {
   }
 
   dump(): Promise<Response> {
-    return this.post("/some-api/test", {});
+    return this.post("/api/business/register", {username: "oskars@shibetec.com", password: "123456"});
   }
 }

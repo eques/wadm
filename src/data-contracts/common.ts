@@ -8,8 +8,3 @@ export interface UserDTO {
     super_admin?: boolean;
     profile?: UserProfileDTO
 }
-
-export interface JsonResponse {
-    status: string;
-    payload: any
-}

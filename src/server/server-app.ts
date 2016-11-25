@@ -22,53 +22,9 @@ MongoClient.connect("mongodb://localhost:27017/animals", function(err, db) {
   if (err) {
     throw err;
   }
-  db.collection("mammals").find().toArray(function(err, result) {
-    if (err) {
-      throw err;
-    }
-    console.log(result);
-  });
 });
-
-var users = Object.create(null) as {
-  [id: string]: UserDTO
-};
-
-var usersByEmail = Object.create(null) as {
-  [email: string]: UserDTO
-};
 
 var fs = require("fs");
-
-var running = false;
-var once_more = false;
-function dump() {
-  if (running) {
-    once_more = true;
-  } else {
-    running = true;
-    fs.writeFile("/tmp/myapp.json", JSON.stringify({
-      users
-    }), () => {
-      running = false;
-      if (once_more) {
-        once_more = false;
-        dump();
-      }
-    });
-  }
-}
-
-app.get("/dump", (req, res) => {
-  dump();
-  res.json({users});
-});
-
-var jsonParser = require("body-parser").json();
-
-function has(x, y) {
-  return Object.hasOwnProperty.call(x, y);
-}
 
 app.post("/some-api/test", (req, res) => {
   var response: JsonResponse = {
@@ -171,20 +127,6 @@ app.post("/api/fidebox/activate", (req, res) => {
     payload: "Some token"
   };
   res.json(response);
-});
-
-fs.readFile("/tmp/myapp.json", "utf8", (e, data) => {
-  if (!e) {
-    console.log("RESTORE DATA");
-    var data = JSON.parse(data);
-    users = data.users as {[id: string]: UserDTO};
-    Object.keys(users).forEach(id => {
-      var user = users[id];
-      usersByEmail[user.primary_email] = user;
-    });
-  } else {
-    console.log(e);
-  }
 });
 
 app.listen(PORT, function () {
