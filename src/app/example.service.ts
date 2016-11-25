@@ -1,7 +1,7 @@
 // get /dump/
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
-import { GeneralHttpService } from "./general-http.service";
+import { GeneralHttpService } from "./shared/general-http.service";
 
 @Injectable()
 export class ExampleService extends GeneralHttpService {

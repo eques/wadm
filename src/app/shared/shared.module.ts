@@ -12,11 +12,11 @@ import { HttpModule } from "@angular/http";
     TranslateModule.forRoot()
   ],
 })
-export class GeneralModule {
+export class SharedModule {
 
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: GeneralModule,
+      ngModule: SharedModule,
       providers: []
     };
   }
