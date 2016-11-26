@@ -8,18 +8,21 @@ import { FideboxService } from "./fidebox.service";
     <form (ngSubmit)="registerNewFidebox()"
           #regFidebox="ngForm">
       <div *ngIf="!regFidebox?.submitted" class="form-group row">
-        <div class="col-md-4">
-          <input type="text" [(ngModel)]="serial" name="serial" class="form-control form-control-lg" placeholder="{{'activate-fidebox.placeholder-enter_serial_numb' | translate}}">
+        <div class="col-md-2 text-right">
+          <label for="name">{{"fidebox.fields.serial" | translate}}</label>
         </div>
-        <button type="submit" class="col-md-2 btn btn-primary">{{"activate-fidebox.button-activate" | translate}}</button>
+        <div class="col-md-4">
+          <input type="text" [(ngModel)]="serial" name="serial" class="form-control form-control-lg" placeholder="{{'fidebox.fields.serial' | translate}}">
+        </div>
+        <button type="submit" class="col-md-2 btn btn-primary">{{"fidebox.buttons.activate" | translate}}</button>
       </div>
       <div *ngIf="regFidebox?.submitted">
         <div class="row">
-          <div class="alert alert-success col-md-6" role="alert" *ngIf="response?.status === 200">{{"activate-fidebox.text-successful_activation" | translate}}</div>
-          <div class="alert alert-error col-md-6" role="alert" *ngIf="response?.status !== 200">{{"activate-fidebox.text-failed_activation" | translate}}</div>
+          <div class="alert alert-success col-md-6" role="alert" *ngIf="response?.status === 200">{{"fidebox.messages.success" | translate}}</div>
+          <div class="alert alert-error col-md-6" role="alert" *ngIf="response?.status !== 200">{{"fidebox.messages.error" | translate}}</div>
         </div>
         <div class="row">
-          <button type="reset" class="btn btn-success col-md-3">{{"activate-fidebox.button-reset" | translate}}</button>
+          <button type="reset" class="btn btn-success col-md-3">{{"fidebox.buttons.another" | translate}}</button>
         </div>
       </div>
     </form>

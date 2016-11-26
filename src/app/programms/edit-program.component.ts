@@ -7,31 +7,44 @@ import { Program } from "./program";
   template: `
   <form (ngSubmit)="save()">
     <div class="row form-group">
+      <div class="col-md-2 text-right">
+        <label for="name">{{"program.fields.name" | translate}}</label>
+      </div>
       <div class="col-md-4">
-        <input name="name" class="form-control" [(ngModel)]="program.name" type="text" placeholder="name">
+        <input name="name" id="name" class="form-control" [(ngModel)]="program.name" type="text" placeholder="{{'program.fields.name' | translate}}">
       </div>
     </div>
     <div class="row form-group">
+      <div class="col-md-2 text-right">
+        <label for="percent">{{"program.fields.discount" | translate}}</label>
+      </div>
       <div class="col-md-4">
-        <input name="percent" class="form-control" [(ngModel)]="program.discount" type="text" placeholder="%">
+        <input name="percent" id="percent" class="form-control" [(ngModel)]="program.discount" type="text" placeholder="{{'program.fields.discount' | translate}}">
       </div>
     </div>
     <div class="row form-group">
+      <div class="col-md-2 text-right">
+        <label for="target">{{"program.fields.target" | translate}}</label>
+      </div>
       <div class="col-md-4">
-        <input name="target" class="form-control" [(ngModel)]="program.target" type="text" placeholder="target">
+        <input name="target" id="target" class="form-control" [(ngModel)]="program.target" type="text" placeholder="{{'program.fields.target' | translate}}">
       </div>
     </div>
     <div class="row form-group">
+      <div class="col-md-2 text-right">
+        <label for="pos">{{"program.fields.pos-nr" | translate}}</label>
+      </div>
       <div class="col-md-4">
-        <input name="pos" class="form-control" [(ngModel)]="program.posNr" type="text" placeholder="POS nr.">
+        <input name="pos" id="pos" class="form-control" [(ngModel)]="program.posNr" type="text" placeholder="{{'program.fields.pos-nr' | translate}}">
       </div>
     </div>
     <div class="row form-group">
+      <div class="col-md-2">&nbsp;</div>
       <div class="col-md-2">
-        <button class="btn btn-success" type="submit">save</button>
+        <button class="btn btn-success" type="submit">{{"program.buttons.save" | translate}}</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-warning" type="button" (click)="cancel()">cancel</button>
+        <button class="btn btn-warning" type="button" (click)="cancel()">{{"program.buttons.cancel" | translate}}</button>
       </div>
     </div>
   </form>

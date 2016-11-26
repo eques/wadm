@@ -7,13 +7,13 @@ import { Program } from "./program";
   template: `
   <div class="row">
     <div class="col-md-9">&nbsp;</div>
-    <button class="btn btn-primary col-md-2" (click)="addNew()">Add new</button>
+    <button class="btn btn-primary col-md-2" (click)="addNew()">{{"program.buttons.add-new" | translate}}</button>
   </div>
   <div class="row">
-    <div class="col-md-2">Name</div>
-    <div class="col-md-2">Discount</div>
-    <div class="col-md-2">Target</div>
-    <div class="col-md-2">POS Nr.</div>
+    <div class="col-md-2">{{"program.fields.name" | translate}}</div>
+    <div class="col-md-2">{{"program.fields.discount" | translate}}</div>
+    <div class="col-md-2">{{"program.fields.target" | translate}}</div>
+    <div class="col-md-2">{{"program.fields.pos-nr" | translate}}</div>
     <div class="col-md-2">&nbsp;</div>
     <div class="col-md-2">&nbsp;</div>
 </div>
@@ -23,8 +23,8 @@ import { Program } from "./program";
     <div class="col-md-2">{{program.discount}}</div>
     <div class="col-md-2">{{program.target}}</div>
     <div class="col-md-2">{{program.posNr}}</div>
-    <div class="col-md-2 clickable text-success" style="cursor: pointer;" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> Edit</div>
-    <div class="col-md-2 clickable text-danger" style="cursor: pointer;" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> Delete</div>
+    <div class="col-md-2 clickable text-success" style="cursor: pointer;" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
+    <div class="col-md-2 clickable text-danger" style="cursor: pointer;" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
   </div>
   <div class="row" *ngIf="program.editing" >
     <div class="col-md-8"><edit-program [program]="program"></edit-program></div>
@@ -38,7 +38,6 @@ export class AllProgramsComponent {
   constructor(private programService: ProgramService) {
     this.programService.getAllProgramms()
       .then(res => {
-        console.log("bebe", res);
         this.programs = res.json().payload
 
       })

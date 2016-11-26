@@ -8,11 +8,11 @@ import { fideboxRoutes } from "../fidebox/fidebox-routes";
     <ul class="nav nav-pills nav-stacked">
         <li [routerLink]="programRoutes.moduleRoot.path" routerLinkActive="active">
           <a href="javascript:void(0)">
-            <span class="glyphicon glyphicon-list"></span> {{"main-menu.link-all_programms" | translate}}</a>
+            <span class="glyphicon glyphicon-list"></span> {{"main-menu.menu.programs" | translate}}</a>
         </li>
         <li [routerLink]=[fideboxRoutes.moduleRoot.path] routerLinkActive="active">
           <a [href]="'/#/' + fideboxRoutes.moduleRoot.path">
-            <span class="glyphicon glyphicon-off"></span>  {{"main-menu.link-activate_fidebox" | translate}}</a>
+            <span class="glyphicon glyphicon-off"></span>  {{"main-menu.menu.fidebox" | translate}}</a>
         </li>
     </ul>
   `

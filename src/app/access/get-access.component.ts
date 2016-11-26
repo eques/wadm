@@ -14,19 +14,19 @@ import { routes } from "../route";
            name="email"
            class="form-control"
            [(ngModel)]="credentials.username"
-           placeholder="{{'access.placeholder-enter_email' | translate}}">
+           placeholder="{{'access.fields.email' | translate}}">
   </div>
   <div class="form-group">
     <input type="password"
            name="password"
            class="form-control"
            [(ngModel)]="credentials.password"
-           placeholder="{{'access.placeholder-enter_passw' | translate}}">
+           placeholder="{{'access.fields.password' | translate}}">
   </div>
-  <button type="button" class="btn btn-primary" (click)="signup()">{{"access.button-signup" | translate}}</button>
-  <button type="button" class="btn btn-success" (click)="login()">{{"access.button-login" | translate}}</button>
+  <button type="button" class="btn btn-primary" (click)="signup()">{{"access.buttons.sign-up" | translate}}</button>
+  <button type="button" class="btn btn-success" (click)="login()">{{"access.buttons.login" | translate}}</button>
   </form>
-  <button class="btn btn-danger" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.button-sign_out" | translate}}</button>
+  <button class="btn btn-danger" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.buttons.sing-out" | translate}}</button>
 `
 })
 export class GetAccessComponent {
@@ -49,7 +49,6 @@ export class GetAccessComponent {
   login() {
     this.accessService.login(this.credentials)
       .then(res => {
-        console.log("lala");
         this.router.navigateByUrl(programsRoutes.moduleRoot.path);
       })
       .catch(err => console.log(err));

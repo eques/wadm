@@ -6,14 +6,13 @@ import { AppComponent } from "./app.component";
 import { routes } from "./route";
 import { SharedModule } from "./shared/shared.module";
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
-import { ExampleComponent } from "./example.component";
-import { ExampleService } from "./example.service";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { MainMenuComponent } from "./main-menu/main-menu.component";
 import { ProgramModule } from "./programms/program.module";
 import { FideboxModule } from "./fidebox/fidebox.module";
 import { AccessModule } from "./access/access.module";
+import { LandingComponent } from "./landing.component";
 
 @NgModule({
   declarations: [
@@ -22,12 +21,10 @@ import { AccessModule } from "./access/access.module";
     HeaderComponent,
     FooterComponent,
     MainMenuComponent,
-
-    ExampleComponent
+    LandingComponent
   ],
   providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy },
-    ExampleService
+    {provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   imports: [
     BrowserModule,

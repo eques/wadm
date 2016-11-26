@@ -1,28 +1,58 @@
 {
-  "activate-fidebox": {
-    "placeholder-enter_serial_numb": "Enter serial number",
-    "text-successful_activation": "Few words about how incredible you are",
-    "text-failed_activation": "Cheer up! (yep... fail)",
-
-    "button-activate": "Activate",
-    "button-reset": "One more time"
-  },
-
   "main-menu": {
-    "link-all_programms": "All loyalties",
-    "link-activate_fidebox": "Activate Fidebox"
+    "menu": {
+      "programs": "All programs",
+      "fidebox": "Activate fidebox"
+    }
   },
   "wheader": {
     "title-dashboard": "FideBox Dashboard"
   },
   "access": {
-    "placeholder-enter_email": "lala@lala.lv",
-    "placeholder-enter_passw": "password",
-    "button-login": "Login",
-    "button-signup": "Sign up",
-    "button-sign_out": "Sign out"
+    "fields": {
+      "email": "E-mail",
+      "password": "Password"
+    },
+    "buttons": {
+      "sign-up": "Sign up",
+      "login": "Login",
+      "sing-out": "Sign out"
+    }
   },
-  "edit-program": {
-
+  "program": {
+    "fields": {
+      "email": "E-mail",
+      "name": "Name",
+      "discount": "Discount",
+      "pos-nr": "POS Nr.",
+      "password": "Password",
+      "target": "Target",
+      "serial": "Serial number"
+    },
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "add-new": "Add new",
+      "edit": "Edit",
+      "delete": "Delete",
+      "activate": "Activate"
+    }
+  },
+  "fidebox": {
+    "fields": {
+      "serial": "Serial number"
+    },
+    "buttons": {
+      "activate": "Activate",
+      "another": "Enter another"
+    },
+    "messages": {
+      "success": "Good job, fidebox was activated. Please plug in it (if it already is plugged in, please disconnect and reconnect it).",
+      "error": "Oooop! Something went wrong."
+    }
+  },
+  "landing": {
+    "welcome": "Welcome to FideBox! Sign up or log in."
   }
+
 }
