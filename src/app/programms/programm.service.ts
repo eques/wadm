@@ -9,7 +9,7 @@ import { Program } from "./program";
 export class ProgramService extends GeneralHttpService {
   private paths = {
     getAllPrograms: "api/program/list",
-    saveProgram: "w/programs",
+    saveProgram: "api/program/save",
     deleteProgram: "w/programs"
   };
 
@@ -18,7 +18,7 @@ export class ProgramService extends GeneralHttpService {
   }
 
   save(program: Program): Promise<Response> {
-    return Promise.resolve({});
+    return this.post(this.paths.saveProgram, program);
   }
 
   delete(program: Program): Promise<Response>  {

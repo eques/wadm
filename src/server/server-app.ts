@@ -291,7 +291,7 @@ app.post("/api/business/login", (req, res) => {
 });
 
 // Create new program in Wapi with partnership and rule
-app.post("/api/program/create", (req, res) => {
+app.post("/api/program/save", (req, res) => {
   let program = {
     name: req.body.name,
     discount: req.body.discount,
