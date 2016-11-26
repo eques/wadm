@@ -11,5 +11,15 @@
   "main-menu": {
     "link-all_programms": "All loyalties",
     "link-activate_fidebox": "Activate Fidebox"
+  },
+  "wheader": {
+    "title-dashboard": "FideBox Dashboard"
+  },
+  "access": {
+    "placeholder-enter_email": "lala@lala.lv",
+    "placeholder-enter_passw": "password",
+    "button-login": "Login",
+    "button-signup": "Sign up"
   }
+
 }
