@@ -105,114 +105,114 @@ app.post("/api/business/register", (req, res) => {
   };
   // ---=== REGISTER AUTH
   request(options, function(err, httpResponse, body){
-    if (httpResponse.statusCode === 200) {
-      var options = {
-        uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
-        method: "POST",
-        json: wapi_data
-      };
-      // ---=== LOG IN AUTH
-      request(options, function(err, httpResponse, body){
-        if (httpResponse.statusCode === 200) {
-          wtoken = body.authToken;
-          var business_data = {
-            id: body.id,
-            user: {
-              business: {
-                regnr: "regnr_" + body.id,
-                title: "title_" + body.id
-              }
-            },
-            devKey: dev_key
-          };
-          var options = {
-            uri: "http://api2.walmoo.com/resources/wal-core/auths?need=user,business" ,
-            method: "POST",
-            json: business_data,
-            headers: {
-              "wtoken": wtoken,
-            },
-          };
-          // ---=== CREATE BUSINESS AND USER
-          request(options, function(err, httpResponse, body){
-            if (httpResponse.statusCode === 200) {
-              walmoo_id = body.user.businessId;
-              fidebox_username = "fidebox@" + walmoo_id + ".com";
-              var fidebox_pass = new Date().getTime();
-              var fidebox_data = {
-                devKey: dev_key,
-                username: fidebox_username,
-                password: fidebox_pass
-              };
-
-              var options = {
-                uri: "http://api2.walmoo.com/resources/wal-core/auths/register",
-                method: "POST",
-                json: fidebox_data
-              };
-              // ---=== CREATE FIDEBOX AUTH
-              request(options, function(err, httpResponse, body){
-                if (httpResponse.statusCode === 200) {
-                  var options = {
-                    uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
-                    method: "POST",
-                    json: fidebox_data
-                  };
-                  // ---=== LOG IN AUTH
-                  request(options, function(err, httpResponse, body){
-                    if (httpResponse.statusCode === 200) {
-                      fidebox_token = body.authToken;
-                      MongoClient.connect(mongo_uri, function(err, db) {
-                        assert.equal(null, err);
-                        insertBusiness(walmoo_id, fidebox_username, fidebox_token, db, function() {
-                          db.close();
-                          console.log("Data saved to database");
-                          var response: JsonResponse = {
-                            status: 200,
-                            payload: "OK"
-                          };
-                          res.json(response);
-                        });
-                      });
-                    } else {
-                      var response: JsonResponse = {
-                        status: httpResponse.statusCode,
-                        payload: body
-                      };
-                      res.json(response);
-                    }
-                  });
-                } else {
-                  var response: JsonResponse = {
-                    status: httpResponse.statusCode,
-                    payload: body
-                  };
-                  res.json(response);
-                }
-              });
-            } else {
-              var response: JsonResponse = {
-                status: httpResponse.statusCode,
-                payload: body
-              };
-              res.json(response);
-            }
-          });
-        } else {
-          var response: JsonResponse = {
-            status: httpResponse.statusCode,
-            payload: body
-          };
-          res.json(response);
-        }
-      });
-    } else {
+    if (httpResponse.statusCode !== 200) {
       var response: JsonResponse = {
         status: httpResponse.statusCode,
-        payload: body
+        payload: body || 'body undefined'
       };
       res.json(response);
+      return;
     }
+    var options = {
+      uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
+      method: "POST",
+      json: wapi_data
+    };
+    // ---=== LOG IN AUTH
+    request(options, function(err, httpResponse, body){
+      if (httpResponse.statusCode !== 200) {
+        var response: JsonResponse = {
+          status: httpResponse.statusCode,
+          payload: body || 'body undefined'
+        };
+        res.json(response);
+        return;
+      }
+      wtoken = body.authToken;
+      var business_data = {
+        id: body.id,
+        user: {
+          business: {
+            regnr: "regnr_" + body.id,
+            title: "title_" + body.id
+          }
+        },
+        devKey: dev_key
+      };
+      var options = {
+        uri: "http://api2.walmoo.com/resources/wal-core/auths?need=user,business" ,
+        method: "POST",
+        json: business_data,
+        headers: {
+          "wtoken": wtoken,
+        },
+      };
+      // ---=== CREATE BUSINESS AND USER
+      request(options, function(err, httpResponse, body){
+        if (httpResponse.statusCode !== 200) {
+          var response: JsonResponse = {
+            status: httpResponse.statusCode,
+            payload: body || 'body undefined'
+          };
+          res.json(response);
+          return;
+        }
+        walmoo_id = body.user.businessId;
+        fidebox_username = "fidebox@" + walmoo_id + ".com";
+        var fidebox_pass = new Date().getTime();
+        var fidebox_data = {
+          devKey: dev_key,
+          username: fidebox_username,
+          password: fidebox_pass
+        };
+
+        var options = {
+          uri: "http://api2.walmoo.com/resources/wal-core/auths/register",
+          method: "POST",
+          json: fidebox_data
+        };
+        // ---=== CREATE FIDEBOX AUTH
+        request(options, function(err, httpResponse, body){
+          if (httpResponse.statusCode !== 200) {
+            var response: JsonResponse = {
+              status: httpResponse.statusCode,
+              payload: body || 'body undefined'
+            };
+            res.json(response);
+            return;
+          }
+          var options = {
+            uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
+            method: "POST",
+            json: fidebox_data
+          };
+          // ---=== LOG IN AUTH
+          request(options, function(err, httpResponse, body){
+            if (httpResponse.statusCode !== 200) {
+              var response: JsonResponse = {
+                status: httpResponse.statusCode,
+                payload: body || 'body undefined'
+              };
+              res.json(response);
+              return;
+            }
+            fidebox_token = body.authToken;
+            MongoClient.connect(mongo_uri, function(err, db) {
+              assert.equal(null, err);
+              insertBusiness(walmoo_id, fidebox_username, fidebox_token, db, function() {
+                db.close();
+                console.log("Data saved to database");
+                var response: JsonResponse = {
+                  status: 200,
+                  payload: "OK"
+                };
+                res.json(response);
+              });
+            });
+          });
+        });
+      });
+    });
   });
 });
 
@@ -230,21 +230,21 @@ app.post("/api/business/login", (req, res) => {
   };
   // ---=== LOG IN AUTH
   request(options, function(err, httpResponse, body){
-    if (httpResponse.statusCode === 200) {
-      wtoken = body.authToken;
-      walmoo_id = body.user.businessId;
-      var response: JsonResponse = {
-        status: 200,
-        payload: "OK"
-      };
-      res.json(response);
-    } else {
+    if (httpResponse.statusCode !== 200) {
       var response: JsonResponse = {
         status: httpResponse.statusCode,
-        payload: body
+        payload: body || 'body undefined'
       };
       res.json(response);
+      return;
     }
+    wtoken = body.authToken;
+    walmoo_id = body.user.businessId;
+    var response: JsonResponse = {
+      status: 200,
+      payload: "OK"
+    };
+    res.json(response);
   });
 });
 
