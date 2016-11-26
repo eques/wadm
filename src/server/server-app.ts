@@ -180,63 +180,88 @@ app.post("/api/business/register", (req, res) => {
               return;
             }
             fidebox_token = body.authToken;
-            let wapi_prog = {
-              active: true,
-              auto: true,
-              priority: 1,
-              unit: "ENROLMENT",
-              type: "PROG",
-              open: false,
-              name: {
-                lv: "default",
-                ru: "default",
-                en: "default"
+            var user_data = {
+              id: body.id,
+              user: {
+                business: {
+                  id: walmoo_id
+                }
               },
-              afterRule: {
-                name: "default prog rule",
-                unit: "ACTIVITY",
-                choices: 1
-              },
-              partnerships: [
-                {admin: true,
-                  referenceId: walmoo_id
-                }]
+              devKey: dev_key
             };
-
-            let options = {
-              uri: "http://api2.walmoo.com/resources/wal-program/programs" ,
+            var options = {
+              uri: "http://api2.walmoo.com/resources/wal-core/auths?need=user,business" ,
               method: "POST",
-              json: wapi_prog,
+              json: user_data,
               headers: {
-                "wtoken": wtoken,
+                "wtoken": fidebox_token,
               },
             };
-            // ---=== CREATE DEFAULT VISITS COUNTER
-            request(options, function(err, httpResponse, body){
+            // ---=== USER FOR FIDEBOX
+            request(options, function(err, httpResponse, body) {
               if (httpResponse.statusCode !== 200) {
                 res.status(httpResponse.statusCode).send(body);
                 return;
               }
-              let default_prog_id = body.id;
-              let after_rule_id = body.afterRuleId;
-              MongoClient.connect(mongo_uri, function(err, db) {
-                assert.equal(null, err);
-                let business_data = {
-                  walmoo_id: walmoo_id,
-                  fidebox_username: fidebox_username,
-                  fidebox_token: fidebox_token,
-                  default_prog_id: default_prog_id,
-                  after_rule_id: after_rule_id
-                };
-                current_business = business_data;
-                insertBusiness(business_data, db, function() {
-                  db.close();
-                  console.log("Data saved to database");
-                  var response: JsonResponse = {
-                    status: 200,
-                    payload: "OK"
+
+              let wapi_prog = {
+                active: true,
+                auto: true,
+                priority: 1,
+                unit: "ENROLMENT",
+                type: "PROG",
+                open: false,
+                name: {
+                  lv: "default",
+                  ru: "default",
+                  en: "default"
+                },
+                afterRule: {
+                  name: "default prog rule",
+                  unit: "ACTIVITY",
+                  choices: 1
+                },
+                partnerships: [
+                  {admin: true,
+                    referenceId: walmoo_id
+                  }]
+              };
+
+              let options = {
+                uri: "http://api2.walmoo.com/resources/wal-program/programs" ,
+                method: "POST",
+                json: wapi_prog,
+                headers: {
+                  "wtoken": wtoken,
+                },
+              };
+              // ---=== CREATE DEFAULT VISITS COUNTER
+              request(options, function(err, httpResponse, body){
+                if (httpResponse.statusCode !== 200) {
+                  res.status(httpResponse.statusCode).send(body);
+                  return;
+                }
+                let default_prog_id = body.id;
+                let after_rule_id = body.afterRuleId;
+                MongoClient.connect(mongo_uri, function(err, db) {
+                  assert.equal(null, err);
+                  let business_data = {
+                    walmoo_id: walmoo_id,
+                    fidebox_username: fidebox_username,
+                    fidebox_token: fidebox_token,
+                    default_prog_id: default_prog_id,
+                    after_rule_id: after_rule_id
                   };
-                  res.json(response);
+                  current_business = business_data;
+                  insertBusiness(business_data, db, function() {
+                    db.close();
+                    console.log("Data saved to database");
+                    var response: JsonResponse = {
+                      status: 200,
+                      payload: "OK"
+                    };
+                    res.json(response);
+                  });
                 });
               });
             });
