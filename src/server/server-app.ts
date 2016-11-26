@@ -208,7 +208,7 @@ app.post("/api/business/register", (req, res) => {
                 active: true,
                 auto: true,
                 priority: 1,
-                unit: "ENROLMENT",
+                unit: "ACTIVITY",
                 type: "PROG",
                 open: false,
                 name: {
@@ -218,7 +218,7 @@ app.post("/api/business/register", (req, res) => {
                 },
                 afterRule: {
                   name: "default prog rule",
-                  unit: "ACTIVITY",
+                  unit: "ENROLMENT",
                   choices: 1
                 },
                 partnerships: [
@@ -480,7 +480,7 @@ app.get("/api/program/list", (req, res) => {
         return 1;
       return 0;
     }
-    
+
     status_list.sort(compare);
     var response: JsonResponse = {
       status: 200,
