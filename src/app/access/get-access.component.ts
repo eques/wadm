@@ -5,17 +5,23 @@ import { AppState } from "../shared/app.state";
 @Component({
   selector: "access",
   template: `
-  <form *ngIf="!appState.isLoggedIn">
+  <form *ngIf="!appState.isLoggedIn" class="form-inline">
+  <div class="form-group">
     <input type="email" 
            name="email"
+           class="form-control"
            [(ngModel)]="credentials.username"
            placeholder="{{'access.placeholder-enter_email' | translate}}">
+  </div>
+  <div class="form-group">
     <input type="password"
            name="password"
+           class="form-control"
            [(ngModel)]="credentials.password"
            placeholder="{{'access.placeholder-enter_passw' | translate}}">
-    <button type="button" (click)="signup()">{{"access.button-signup" | translate}}</button>
-    <button type="button" (click)="login()">{{"access.button-login" | translate}}</button>
+  </div>
+  <button type="button" class="btn btn-primary" (click)="signup()">{{"access.button-signup" | translate}}</button>
+  <button type="button" class="btn btn-success" (click)="login()">{{"access.button-login" | translate}}</button>
   </form>
   <button *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.button-sign_out" | translate}}</button>
 `
