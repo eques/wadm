@@ -23,7 +23,7 @@ import { AppState } from "../shared/app.state";
   <button type="button" class="btn btn-primary" (click)="signup()">{{"access.button-signup" | translate}}</button>
   <button type="button" class="btn btn-success" (click)="login()">{{"access.button-login" | translate}}</button>
   </form>
-  <button *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.button-sign_out" | translate}}</button>
+  <button class="btn btn-danger" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.button-sign_out" | translate}}</button>
 `
 })
 export class GetAccessComponent {
