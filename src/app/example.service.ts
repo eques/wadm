@@ -12,7 +12,7 @@ export class ExampleService extends GeneralHttpService {
   }
 
   activate(): Promise<Response> {
-    return this.post("/api/fidebox/activate", {serial: "dogedogedoge"});
+    return this.post("/api/fidebox/activate", {serial: "new_serial_number"});
   }
 
   login(): Promise<Response> {

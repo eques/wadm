@@ -296,16 +296,23 @@ app.post("/api/program/list", (req, res) => {
 app.post("/api/fidebox/activate", (req, res) => {
   var serial = req.body.serial;
   var td_data = {
+    current: true,
     terminal: {
-      name: "fidebox_" + serial
+      name: "fidebox_" + serial,
+      shop: {
+        business: {
+          id: walmoo_id
+        }
+      }
     },
-    device: {
+    device:{
       imei: serial,
       business: {
         id: walmoo_id
       }
     }
   };
+
   var options = {
     uri: "http://api2.walmoo.com/resources/wal-core/terminal-devices",
     method: "POST",
@@ -314,7 +321,7 @@ app.post("/api/fidebox/activate", (req, res) => {
       "wtoken": wtoken,
     },
   };
-  console.log(td_data);
+
   // ---=== CREATE TERMINAL-DEVICE LINK
   request(options, function(err, httpResponse, body){
     console.log(body);
