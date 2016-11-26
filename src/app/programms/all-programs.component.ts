@@ -6,23 +6,32 @@ import { Program } from "./program";
   selector: "all-programs",
   template: `
 <table>
+<thead>
 <tr>
   <th>name</th>
-  <th>customFields</th>
-  <th>amount</th>
-  <th>unit</th>
+  <th>percent</th>
+  <th>target</th>
+  <th>pos</th>
+  <th></th>
+  <th></th>
 </tr>
-<tr *ngFor="let program of programs">
-<div *ngIf="!program.editing">
-  <td>{{program.name}}</td>
-  <td>{{program.customFields}}</td>
-  <td>{{program.amount}}</td>
-  <td>{{program.unit}}</td>
-  <td><button (click)="edit(program)">edit</button></td>
-  <td><button (click)="delete(program)">delete</button></td>
+</thead>
+<tbody>
+<div *ngFor="let program of programs">
+  <tr *ngIf="!program.editing">
+    <td>{{program.name}}</td>
+    <td>{{program.percent}}</td>
+    <td>{{program.target}}</td>
+    <td>{{program.pos}}</td>
+    <td><button (click)="edit(program)">edit</button></td>
+    <td><button (click)="delete(program)">delete</button></td>
+  </tr>
+  <tr *ngIf="program.editing" >
+    <td colspan="6"><edit-program [program]="program"></edit-program></td>
+  </tr>
 </div>
-  <td colspan="6" *ngIf="program.editing">lala</td>
-</tr></table>`
+</tbody>
+</table>`
 })
 export class AllProgramsComponent {
   private programs;
@@ -36,11 +45,6 @@ export class AllProgramsComponent {
 
   edit(program: Program) {
     program.editing = true;
-  }
-
-  save(program: Program) {
-    this.programService.save(program)
-      .catch(err => console.log(err));
   }
 
   delete(program: Program) {
