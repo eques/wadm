@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { GeneralHttpService } from "../shared/general-http.service";
 import "rxjs";
+import { AppState } from "../shared/app.state";
 
 @Injectable()
 export class AccessService extends GeneralHttpService {
@@ -9,15 +10,22 @@ export class AccessService extends GeneralHttpService {
     activateFidebox: "some-api/test"
   };
 
-  constructor(http: Http) {
+  constructor(http: Http,
+              private appState: AppState) {
     super(http);
   }
 
-  login() {
+  login(): Promise<Response> {
+    // TODO: implement me
     console.log("try login");
+    this.appState.isLoggedIn = true;
+    return Promise.resolve({status: 200});
   }
 
-  signUp() {
+  signUp(): Promise<Response> {
+    // TODO: implement me
     console.log("try sign up");
+    this.appState.isLoggedIn = true;
+    return Promise.resolve({status: 200});
   }
 }
