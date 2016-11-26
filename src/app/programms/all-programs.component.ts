@@ -6,6 +6,10 @@ import { Program } from "./program";
   selector: "all-programs",
   template: `
   <div class="row">
+    <div class="col-md-9">&nbsp;</div>
+    <button class="btn btn-primary col-md-2" (click)="addNew()">Add new</button>
+  </div>
+  <div class="row">
     <div class="col-md-2">Name</div>
     <div class="col-md-2">Discount</div>
     <div class="col-md-2">Target</div>
@@ -36,6 +40,12 @@ export class AllProgramsComponent {
       .then(res => this.programs = res)
       .then(() => this.programs.map(p => p.editing = false))
       .catch(err => console.log(err));
+  }
+
+  addNew() {
+    let newProgram = new Program();
+    newProgram.editing = true;
+    this.programs.push(newProgram);
   }
 
   edit(program: Program) {

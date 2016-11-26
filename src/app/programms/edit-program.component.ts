@@ -57,7 +57,7 @@ export class EditProgramComponent implements OnInit {
   }
 
   cancel() {
-    this.program = Object.assign(this.program, this.bcProgram);
+    this.program = Object.assign(this.bcProgram);
     this.program.editing = false;
   }
 }
