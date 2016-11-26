@@ -10,7 +10,7 @@ export class ProgramService extends GeneralHttpService {
   private paths = {
     getAllPrograms: "api/program/list",
     saveProgram: "api/program/save",
-    deleteProgram: "w/programs"
+    deleteProgram: "api/program/delete"
   };
 
   constructor(http: Http) {
@@ -22,7 +22,7 @@ export class ProgramService extends GeneralHttpService {
   }
 
   delete(program: Program): Promise<Response>  {
-    return Promise.resolve({});
+    return this.post(this.paths.deleteProgram, program);
   }
 
   getAllProgramms(): Promise<Response> {

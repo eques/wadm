@@ -293,45 +293,106 @@ app.post("/api/business/login", (req, res) => {
 // Create new program in Wapi with partnership and rule
 app.post("/api/program/save", (req, res) => {
   let program = {
+    ruleId: req.body.ruleId || "",
+    programId: req.body.programId || "",
     name: req.body.name,
     discount: req.body.discount,
     target: req.body.target,
     posNr: req.body.posNr
   };
 
-  let program_data = {
-    name: program.name,
-    priority: 0,
-    unit: "ACTIVITY",
-    amount: program.target,
-    totals: true,
-    ruleId: current_business.after_rule_id,
-    program: {
-      customFields: [
-        {cfKey: "posNr", cfValue: program.posNr },
-        {cfKey: "discount", cfValue: program.discount }
-        ],
-      active: true,
-      type: "STATUS",
-      name: {
-        lv: program.name,
-        ru: program.name,
-        en: program.name
+  MongoClient.connect(mongo_uri, function(err, db) {
+    assert.equal(null, err);
+    findBusiness(walmoo_id, db, function(doc) {
+      db.close();
+      if (typeof(doc) !== 'undefined') {
+        current_business = doc;
+        let program_data = {
+          name: program.name,
+          priority: 0,
+          unit: "ACTIVITY",
+          amount: program.target,
+          totals: true,
+          ruleId: current_business.after_rule_id,
+          program: {
+            customFields: [
+              {cfKey: "posNr", cfValue: program.posNr },
+              {cfKey: "discount", cfValue: program.discount }
+            ],
+            active: true,
+            type: "STATUS",
+            name: {
+              lv: program.name,
+              ru: program.name,
+              en: program.name
+            },
+            partnerships: [{admin: true, referenceId: walmoo_id}]
+          }
+        };
+
+        if (program.ruleId !== "" && program.programId !== "") {
+          program_data["id"] = program.ruleId;
+          program_data.program["id"] = program.programId;
+        }
+
+        var options = {
+          uri: "http://api2.walmoo.com/resources/wal-program/rules?need=program,customFields,name",
+          method: "POST",
+          json: program_data,
+          headers: {
+            "wtoken": wtoken,
+          },
+        };
+
+        // ---=== SAVE PROGRAM
+        request(options, function(err, httpResponse, body){
+          if (httpResponse.statusCode !== 200) {
+            res.status(httpResponse.statusCode).send(body);
+            return;
+          }
+
+          let data = {
+            ruleId: body.id,
+            programId: body.program.id,
+            name: body.program.name.lv,
+            target: body.amount
+          };
+          for (let cf of body.program.customFields) {
+            if (cf.cfKey === "discount") {
+              data["discount"] = cf.cfValue;
+            }
+            if (cf.cfKey === "posNr") {
+              data["posNr"] = cf.cfValue;
+            }
+          }
+          var response: JsonResponse = {
+            status: 200,
+            payload: data
+          };
+          res.json(response);
+        });
+      } else {
+        var response: JsonResponse = {
+          status: 404,
+          payload: "Business not found."
+        };
+        res.json(response);
+      }
+    });
+  });
+});
+
+// Deletes existing program
+app.post("/api/program/delete", (req, res) => {
+
+    var options = {
+      uri: "http://api2.walmoo.com/resources/wal-program/rules/" + req.body.ruleId,
+      method: "DELETE",
+      headers: {
+        "wtoken": wtoken,
       },
-      partnerships: [{admin: true, referenceId: walmoo_id}]
-    }
-  };
-
-  var options = {
-    uri: "http://api2.walmoo.com/resources/wal-program/rules",
-    method: "POST",
-    json: program_data,
-    headers: {
-      "wtoken": wtoken,
-    },
-  };
-
-  // ---=== CREATE NEW PROGRAM
+    };
+  // ---=== DELETE PROGRAM
   request(options, function(err, httpResponse, body){
     if (httpResponse.statusCode !== 200) {
       res.status(httpResponse.statusCode).send(body);
@@ -340,32 +401,10 @@ app.post("/api/program/save", (req, res) => {
 
     var response: JsonResponse = {
       status: 200,
-      payload: {}
+      payload: "OK"
     };
     res.json(response);
   });
-});
-
-// Create new program in Wapi with partnership and rule
-app.post("/api/program/edit", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to save existing program data
-  var response: JsonResponse = {
-    status: 200,
-    payload: {}
-  };
-  res.json(response);
-});
-
-// Deletes existing program
-app.post("/api/program/delete", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to delete program
-  var response: JsonResponse = {
-    status: 200,
-    payload: ""
-  };
-  res.json(response);
 });
 
 // Gets list of all business programs from Wapi
@@ -391,14 +430,21 @@ app.post("/api/program/list", (req, res) => {
           && prog.program !== null
           && prog.program.hasOwnProperty("type")
           && prog.program.type === "STATUS") {
-        status_list.push({
+        let data = {
           ruleId: prog.id,
           programId: prog.program.id,
           name: prog.program.name.lv,
-          target: prog.amount,
-          discount: 1,
-          posNr: "0001"
-        });
+          target: prog.amount
+        };
+        for (let cf of prog.program.customFields) {
+          if (cf.cfKey === "discount") {
+            data["discount"] = cf.cfValue;
+          }
+          if (cf.cfKey === "posNr") {
+            data["posNr"] = cf.cfValue;
+          }
+        }
+        status_list.push(data);
       }
     }
 
