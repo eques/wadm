@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { AccessService } from "./access.service";
 import { AppState } from "../shared/app.state";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "access",
@@ -34,7 +35,8 @@ export class GetAccessComponent {
   };
 
   constructor(private accessService: AccessService,
-              private appState: AppState) {}
+              private appState: AppState,
+              private router: Router) {}
 
   signup() {
     this.accessService.signUp(this.credentials)
@@ -49,5 +51,6 @@ export class GetAccessComponent {
 
   signOut() {
     this.accessService.signOut();
+    this.router.navigateByUrl("#");
   }
 }

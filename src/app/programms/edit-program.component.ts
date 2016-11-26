@@ -31,7 +31,7 @@ import { Program } from "./program";
         <button class="btn btn-success" type="submit">save</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-warning" (click)="cancel()">cancel</button>
+        <button class="btn btn-warning" type="button" (click)="cancel()">cancel</button>
       </div>
     </div>
   </form>
