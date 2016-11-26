@@ -15,6 +15,10 @@ export class ExampleService extends GeneralHttpService {
     return this.post("/api/fidebox/activate", {serial: "new_serial_number"});
   }
 
+  create_prog(): Promise<Response> {
+    return this.post("/api/program/create", {});
+  }
+
   login(): Promise<Response> {
     return this.post("/api/business/login", {username: "oskars20@yopmail.com", password: "123456"});
   }

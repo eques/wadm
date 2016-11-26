@@ -29,11 +29,13 @@ var assert = require('assert');
 var ObjectId = mongo.ObjectID;
 var mongo_uri = 'mongodb://localhost:27017/wadm';
 
-var insertBusiness = function(walmoo_id, fidebox_username, fidebox_token, db, callback) {
+var insertBusiness = function(business_data, db, callback) {
   db.collection('business').insertOne( {
-    "walmoo_id" : walmoo_id,
-    "fidebox_username" : fidebox_username,
-    "fidebox_token" : fidebox_token
+    "walmoo_id" : business_data.walmoo_id,
+    "fidebox_username" : business_data.fidebox_username,
+    "fidebox_token" : business_data.fidebox_token,
+    "default_prog_id": business_data.default_prog_id,
+    "after_rule_id": business_data.after_rule_id
   }, function(err, result) {
     assert.equal(err, null);
     callback();
@@ -178,16 +180,63 @@ app.post("/api/business/register", (req, res) => {
               return;
             }
             fidebox_token = body.authToken;
-            MongoClient.connect(mongo_uri, function(err, db) {
-              assert.equal(null, err);
-              insertBusiness(walmoo_id, fidebox_username, fidebox_token, db, function() {
-                db.close();
-                console.log("Data saved to database");
-                var response: JsonResponse = {
-                  status: 200,
-                  payload: "OK"
+            let wapi_prog = {
+              active: true,
+              auto: true,
+              priority: 1,
+              unit: "ENROLMENT",
+              type: "PROG",
+              open: false,
+              name: {
+                lv: "default",
+                ru: "default",
+                en: "default"
+              },
+              afterRule: {
+                name: "default prog rule",
+                unit: "ACTIVITY"
+              },
+              partnerships: [
+                {admin: true,
+                  referenceId: walmoo_id
+                }]
+            };
+
+            let options = {
+              uri: "http://api2.walmoo.com/resources/wal-program/programs" ,
+              method: "POST",
+              json: wapi_prog,
+              headers: {
+                "wtoken": wtoken,
+              },
+            };
+            // ---=== CREATE DEFAULT VISITS COUNTER
+            request(options, function(err, httpResponse, body){
+              if (httpResponse.statusCode !== 200) {
+                res.status(httpResponse.statusCode).send(body);
+                return;
+              }
+              console.log(body);
+              let default_prog_id = body.id;
+              let after_rule_id = body.afterRuleId;
+              MongoClient.connect(mongo_uri, function(err, db) {
+                assert.equal(null, err);
+                let business_data = {
+                  walmoo_id: walmoo_id,
+                  fidebox_username: fidebox_username,
+                  fidebox_token: fidebox_token,
+                  default_prog_id: default_prog_id,
+                  after_rule_id: after_rule_id
                 };
-                res.json(response);
+                insertBusiness(business_data, db, function() {
+                  db.close();
+                  console.log("Data saved to database");
+                  var response: JsonResponse = {
+                    status: 200,
+                    payload: "OK"
+                  };
+                  res.json(response);
+                });
               });
             });
           });
@@ -218,6 +267,7 @@ app.post("/api/business/login", (req, res) => {
     wtoken = body.authToken;
     walmoo_id = body.user.businessId;
     console.log(wtoken);
+    console.log(walmoo_id);
     var response: JsonResponse = {
       status: 200,
       payload: "OK"
@@ -230,11 +280,12 @@ app.post("/api/business/login", (req, res) => {
 app.post("/api/program/create", (req, res) => {
   // TODO Get chosen dev key
   // TODO Ask Wapi to create new program with partnership, correct rule and custom field
-  var response: JsonResponse = {
-    status: 200,
-    payload: {}
-  };
-  res.json(response);
+  // let program = {
+  //   name: res.body.name,
+  //   discount: res.body.discount,
+  //   target: res.discount.target,
+  //   pos_nr: res.body.pos_nr
+  // };
 });
 
 // Create new program in Wapi with partnership and rule
