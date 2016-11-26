@@ -8,7 +8,7 @@ import { Program } from "./program";
 @Injectable()
 export class ProgramService extends GeneralHttpService {
   private paths = {
-    getAllPrograms: "w/programs",
+    getAllPrograms: "api/program/list",
     saveProgram: "w/programs",
     deleteProgram: "w/programs"
   };
@@ -25,15 +25,15 @@ export class ProgramService extends GeneralHttpService {
     return Promise.resolve({});
   }
 
-  getAllProgramms(): Promise<Program[]> {
+  getAllProgramms(): Promise<Response> {
     let programs = [
       new Program(),
       new Program(),
       new Program()
     ];
 
-    // return this.post(this.paths.getAllPrograms, {});
-    return Promise.resolve(programs);
+    return this.post(this.paths.getAllPrograms, {});
+    // return Promise.resolve(programs);
   }
 
 }

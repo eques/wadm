@@ -7,7 +7,7 @@ import { fideboxRoutes } from "../fidebox/fidebox-routes";
   template: `
     <ul class="nav nav-pills nav-stacked">
         <li [routerLink]="programRoutes.moduleRoot.path" routerLinkActive="active">
-          <a [href]="'/#/' + programRoutes.moduleRoot.path">
+          <a href="javascript:void(0)">
             <span class="glyphicon glyphicon-list"></span> {{"main-menu.link-all_programms" | translate}}</a>
         </li>
         <li [routerLink]=[fideboxRoutes.moduleRoot.path] routerLinkActive="active">

@@ -1,9 +1,10 @@
 export class Program {
-  id: any;
+  ruleId: any;
+  programId: any;
   name: any = "blah blah";
-  percent: any = 15;
+  discount: any = 15;
   target: any = 3;
-  pos: any;
+  posNr: any;
 
   editing: boolean = false;
 }

@@ -296,7 +296,7 @@ app.post("/api/program/create", (req, res) => {
     name: req.body.name,
     discount: req.body.discount,
     target: req.body.target,
-    pos_nr: req.body.pos_nr
+    posNr: req.body.posNr
   };
 
   let program_data = {
@@ -308,7 +308,7 @@ app.post("/api/program/create", (req, res) => {
     ruleId: current_business.after_rule_id,
     program: {
       customFields: [
-        {cfKey: "pos_nr", cfValue: program.pos_nr },
+        {cfKey: "posNr", cfValue: program.posNr },
         {cfKey: "discount", cfValue: program.discount }
         ],
       active: true,
@@ -392,12 +392,12 @@ app.post("/api/program/list", (req, res) => {
           && prog.program.hasOwnProperty("type")
           && prog.program.type === "STATUS") {
         status_list.push({
-          rule_id: prog.id,
-          program_id: prog.program.id,
+          ruleId: prog.id,
+          programId: prog.program.id,
           name: prog.program.name.lv,
           target: prog.amount,
           discount: 1,
-          pos_nr: "0001"
+          posNr: "0001"
         });
       }
     }

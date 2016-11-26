@@ -20,9 +20,9 @@ import { Program } from "./program";
 <div *ngFor="let program of programs">
   <div class="row" *ngIf="!program.editing">
     <div class="col-md-2">{{program.name}}</div>
-    <div class="col-md-2">{{program.percent}}</div>
+    <div class="col-md-2">{{program.discount}}</div>
     <div class="col-md-2">{{program.target}}</div>
-    <div class="col-md-2">{{program.pos}}</div>
+    <div class="col-md-2">{{program.posNr}}</div>
     <div class="col-md-2 clickable text-success" style="cursor: pointer;" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> Edit</div>
     <div class="col-md-2 clickable text-danger" style="cursor: pointer;" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> Delete</div>
   </div>
@@ -37,7 +37,11 @@ export class AllProgramsComponent {
 
   constructor(private programService: ProgramService) {
     this.programService.getAllProgramms()
-      .then(res => this.programs = res)
+      .then(res => {
+        console.log("bebe", res);
+        this.programs = res.json().payload
+
+      })
       .then(() => this.programs.map(p => p.editing = false))
       .catch(err => console.log(err));
   }
@@ -54,7 +58,7 @@ export class AllProgramsComponent {
 
   delete(program: Program) {
     this.programService.delete(program)
-      .then(res => this.programs = this.programs.filter(p => p.id !== program.id))
+      .then(res => this.programs = this.programs.filter(p => p.programId !== program.programId))
       .catch(err => console.log(err));
   }
 }

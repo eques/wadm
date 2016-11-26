@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { AccessService } from "./access.service";
 import { AppState } from "../shared/app.state";
 import { Router } from "@angular/router";
+import { programsRoutes } from "../programms/programs-routes";
+import { routes } from "../route";
 
 @Component({
   selector: "access",
@@ -40,17 +42,21 @@ export class GetAccessComponent {
 
   signup() {
     this.accessService.signUp(this.credentials)
-      .then(res => console.log(res))
+      .then(res => this.router.navigate([programsRoutes.moduleRoot.path]))
       .catch(err => console.log(err));
   }
 
   login() {
     this.accessService.login(this.credentials)
+      .then(res => {
+        console.log("lala");
+        this.router.navigateByUrl(programsRoutes.moduleRoot.path);
+      })
       .catch(err => console.log(err));
   }
 
   signOut() {
     this.accessService.signOut();
-    this.router.navigateByUrl("#");
+    this.router.navigateByUrl(routes.toIndex.path);
   }
 }
