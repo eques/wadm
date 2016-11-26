@@ -19,6 +19,7 @@
     "placeholder-enter_email": "lala@lala.lv",
     "placeholder-enter_passw": "password",
     "button-login": "Login",
-    "button-signup": "Sign up"
+    "button-signup": "Sign up",
+    "button-sign_out": "Sign out"
   }
 }

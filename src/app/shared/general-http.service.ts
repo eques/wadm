@@ -13,12 +13,14 @@ export abstract class GeneralHttpService {
   private defaultRequestOprions: RequestOptions;
 
   get(path: string): Promise<Response> {
+    console.log("GET", path);
     return this.http
       .get(path)
       .toPromise();
   }
 
   post(path: string, params?: any, options?: RequestOptions): Promise<Response> {
+    console.log("POST", path, params);
     return this.http
       .post(path, JSON.stringify(params), options || this.defaultRequestOprions)
       .toPromise();

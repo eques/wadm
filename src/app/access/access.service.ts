@@ -7,7 +7,8 @@ import { AppState } from "../shared/app.state";
 @Injectable()
 export class AccessService extends GeneralHttpService {
   private paths = {
-    activateFidebox: "some-api/test"
+    activateFidebox: "some-api/test",
+    register: "/api/business/register"
   };
 
   constructor(http: Http,
@@ -22,11 +23,14 @@ export class AccessService extends GeneralHttpService {
     return Promise.resolve({status: 200});
   }
 
-  signUp(): Promise<Response> {
-    // TODO: implement me
-    console.log("try sign up");
+  signUp(credentials): Promise<Response> {
+    let params = {
+      username: credentials.username,
+      password: credentials.password
+    };
+
     this.appState.isLoggedIn = true;
-    return Promise.resolve({status: 200});
+    return this.post(this.paths.register, params);
   }
 
   signOut(): Promise<Response> {
