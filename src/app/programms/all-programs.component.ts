@@ -23,8 +23,8 @@ import { Program } from "./program";
     <div class="col-md-2">{{program.discount}}</div>
     <div class="col-md-2">{{program.target}}</div>
     <div class="col-md-2">{{program.posNr}}</div>
-    <div class="col-md-2 clickable text-success" style="cursor: pointer;" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
-    <div class="col-md-2 clickable text-danger" style="cursor: pointer;" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
+    <div class="col-md-2 clickable text-success clickable" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
+    <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
   </div>
   <div class="row" *ngIf="program.editing" >
     <div class="col-md-8"><edit-program [program]="program"></edit-program></div>
