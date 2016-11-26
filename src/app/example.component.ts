@@ -13,7 +13,7 @@ export class ExampleComponent {
     // es.login().then(res =>
     //   es.activate().then(res => console.log(res.json()))
     // );
-
-    es.fidebox_login().then(res => console.log(res.json()))
+    es.fideboxLogin()
+      .then(res => console.log(res.json()))
   }
 }
