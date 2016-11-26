@@ -11,7 +11,7 @@ import { Program } from "./program";
     <input name="target" [(ngModel)]="program.target" type="text" placeholder="target"><br>
     <input name="pos" [(ngModel)]="program.pos" type="text" placeholder="POS nr."><br>
     <button type="submit">save</button>
-    <button (click)="cancel()">cancel</button>
+    <button type="button" (click)="cancel()">cancel</button>
   </form>
 `
 })
@@ -35,7 +35,7 @@ export class EditProgramComponent implements OnInit {
   }
 
   cancel() {
-    this.program = Object.assign(this.program, this.bcProgram);
+    this.program = Object.assign(this.bcProgram);
     this.program.editing = false;
   }
 }

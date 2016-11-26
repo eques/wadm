@@ -30,6 +30,9 @@ import { Program } from "./program";
     <td colspan="6"><edit-program [program]="program"></edit-program></td>
   </tr>
 </div>
+  <tr>
+    <td colspan="6"><button (click)="addNew()">add new</button></td>
+  </tr>
 </tbody>
 </table>`
 })
@@ -41,6 +44,12 @@ export class AllProgramsComponent {
       .then(res => this.programs = res)
       .then(() => this.programs.map(p => p.editing = false))
       .catch(err => console.log(err));
+  }
+
+  addNew() {
+    let newProgram = new Program();
+    newProgram.editing = true;
+    this.programs.push(newProgram);
   }
 
   edit(program: Program) {
