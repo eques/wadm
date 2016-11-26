@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "ng2-translate/ng2-translate";
+import { AppState } from "./shared/app.state";
 
 @Component({
   selector: "my-app",
@@ -12,7 +13,7 @@ import { TranslateService } from "ng2-translate/ng2-translate";
         </div>
         <main id="content" class="row-fluid">
           <div class="col-md-2">
-            <main-menu></main-menu>
+            <main-menu *ngIf="appState.isLoggedIn"></main-menu>
           </div>
           <div class="col-md-10">
             <router-outlet></router-outlet>
@@ -28,7 +29,8 @@ import { TranslateService } from "ng2-translate/ng2-translate";
 })
 export class AppComponent implements OnInit {
 
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService,
+              private appState: AppState) {}
 
   ngOnInit() {
     this.configureTranslator();
