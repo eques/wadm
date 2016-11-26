@@ -23,8 +23,8 @@ import { Program } from "./program";
     <div class="col-md-2">{{program.percent}}</div>
     <div class="col-md-2">{{program.target}}</div>
     <div class="col-md-2">{{program.pos}}</div>
-    <div class="col-md-2 clickable text-success" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> Edit</div>
-    <div class="col-md-2 clickable text-danger" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> Delete</div>
+    <div class="col-md-2 clickable text-success" style="cursor: pointer;" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> Edit</div>
+    <div class="col-md-2 clickable text-danger" style="cursor: pointer;" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> Delete</div>
   </div>
   <div class="row" *ngIf="program.editing" >
     <div class="col-md-8"><edit-program [program]="program"></edit-program></div>
