@@ -6,6 +6,7 @@ var body_parser = require("body-parser");
 var request = require('request');
 const dev_key = "fidebox123456789012345";
 var wtoken = "";
+var walmoo_id;
 
 const app = express();
 app.use(body_parser.urlencoded({extended : true}));
@@ -39,6 +40,16 @@ var insertBusiness = function(walmoo_id, fidebox_username, fidebox_token, db, ca
   });
 };
 
+var insertFidebox = function(walmoo_id, serial, db, callback) {
+  db.collection('fidebox').insertOne( {
+    "walmoo_id" : walmoo_id,
+    "serial" : serial
+  }, function(err, result) {
+    assert.equal(err, null);
+    callback();
+  });
+};
+
 app.post("/some-api/test", (req, res) => {
   var response: JsonResponse = {
     status: 200,
@@ -50,7 +61,6 @@ app.post("/some-api/test", (req, res) => {
 // Creates new business, admin and fidebox users, save info about business in database
 // TODO "Rollback" transaction, if error code received, delete all data that was created before
 app.post("/api/business/register", (req, res) => {
-  var walmoo_id = "";
   var fidebox_username = "";
   var fidebox_token = "";
   var wapi_data = {
@@ -184,7 +194,7 @@ app.post("/api/business/login", (req, res) => {
     password: req.body.password
   };
   var options = {
-    uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
+    uri: "http://api2.walmoo.com/resources/wal-core/auths/login?need=user",
     method: "POST",
     json: wapi_data
   };
@@ -192,6 +202,7 @@ app.post("/api/business/login", (req, res) => {
   request(options, function(err, httpResponse, body){
     if (httpResponse.statusCode === 200) {
       wtoken = body.authToken;
+      walmoo_id = body.user.businessId;
       var response: JsonResponse = {
         status: 200,
         payload: "OK"
@@ -253,23 +264,61 @@ app.post("/api/program/list", (req, res) => {
 
 // Ask Wapi to create device and terminal for fidebox and save it to database
 app.post("/api/fidebox/activate", (req, res) => {
+  var serial = req.body.serial;
+  var td_data = {
+    terminal: {
+      name: "fidebox_" + serial
+    },
+    device: {
+      imei: serial,
+      business: {
+        id: walmoo_id
+      }
+    }
+  };
+  var options = {
+    uri: "http://api2.walmoo.com/resources/wal-core/terminal-devices",
+    method: "POST",
+    json: td_data,
+    headers: {
+      "wtoken": wtoken,
+    },
+  };
+  console.log(td_data);
+  // ---=== CREATE TERMINAL-DEVICE LINK
+  request(options, function(err, httpResponse, body){
+    console.log(body);
+    if (httpResponse.statusCode === 200) {
+      MongoClient.connect(mongo_uri, function(err, db) {
+        assert.equal(null, err);
+        insertFidebox(walmoo_id, serial, db, function() {
+          db.close();
+          console.log("Data saved to database");
+          var response: JsonResponse = {
+            status: 200,
+            payload: "OK"
+          };
+          res.json(response);
+        });
+      });
+    } else {
+      var response: JsonResponse = {
+        status: httpResponse.statusCode,
+        payload: body
+      };
+      res.json(response);
+    }
+  });
+});
+
+// Check for existing fidebox login tokens (ask new from Wapi if necessary) and give it to fidebox
+app.post("/api/fidebox/login", (req, res) => {
   // TODO Get chosen dev key
   // TODO Ask Wapi to create device and terminal
   // TODO Save data about fidebox to database
   var response: JsonResponse = {
     status: 200,
     payload: ""
-  };
-  res.json(response);
-});
-
-// Check for existing fidebox login tokens (ask new from Wapi if necessary) and give it to fidebox
-app.post("/api/fidebox/activate", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Check db for existing fidebox login token and ask Wapi for new one, if necessary
-  var response: JsonResponse = {
-    status: 200,
-    payload: "Some token"
   };
   res.json(response);
 });

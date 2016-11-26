@@ -11,7 +11,11 @@ export class ExampleService extends GeneralHttpService {
     super(http);
   }
 
-  dump(): Promise<Response> {
-    return this.post("/some-api/test", {});
+  activate(): Promise<Response> {
+    return this.post("/api/fidebox/activate", {serial: "dogedogedoge"});
+  }
+
+  login(): Promise<Response> {
+    return this.post("/api/business/login", {username: "oskars20@yopmail.com", password: "123456"});
   }
 }
