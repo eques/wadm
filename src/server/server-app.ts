@@ -314,14 +314,14 @@ app.post("/api/program/create", (req, res) => {
       active: true,
       type: "STATUS",
       name: {
-        lv: "bronze",
-        ru: "bronze",
-        en: "bronze"
+        lv: program.name,
+        ru: program.name,
+        en: program.name
       },
       partnerships: [{admin: true, referenceId: walmoo_id}]
     }
   };
-  console.log(JSON.stringify(program_data));
+
   var options = {
     uri: "http://api2.walmoo.com/resources/wal-program/rules",
     method: "POST",
@@ -370,13 +370,44 @@ app.post("/api/program/delete", (req, res) => {
 
 // Gets list of all business programs from Wapi
 app.post("/api/program/list", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi for all business programs
-  var response: JsonResponse = {
-    status: 200,
-    payload: []
+  var options = {
+    uri: "http://api2.walmoo.com/resources/wal-program/rules?need=program,customFields,name",
+    method: "GET",
+    headers: {
+      "wtoken": wtoken,
+    },
   };
-  res.json(response);
+
+  // ---=== GET LIST OF ALL PROGRAMS
+  request(options, function(err, httpResponse, body){
+    if (httpResponse.statusCode !== 200) {
+      res.status(httpResponse.statusCode).send(body);
+      return;
+    }
+    let all_progs = JSON.parse(body);
+    let status_list = [];
+    for (let prog of all_progs) {
+      if (prog.hasOwnProperty(("program"))
+          && prog.program !== null
+          && prog.program.hasOwnProperty("type")
+          && prog.program.type === "STATUS") {
+        status_list.push({
+          rule_id: prog.id,
+          program_id: prog.program.id,
+          name: prog.program.name.lv,
+          target: prog.amount,
+          discount: 1,
+          pos_nr: "0001"
+        });
+      }
+    }
+
+    var response: JsonResponse = {
+      status: 200,
+      payload: status_list
+    };
+    res.json(response);
+  });
 });
 
 // Ask Wapi to create device and terminal for fidebox and save it to database
