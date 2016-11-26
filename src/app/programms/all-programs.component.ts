@@ -5,33 +5,28 @@ import { Program } from "./program";
 @Component({
   selector: "all-programs",
   template: `
-<table>
-<thead>
-<tr>
-  <th>name</th>
-  <th>percent</th>
-  <th>target</th>
-  <th>pos</th>
-  <th></th>
-  <th></th>
-</tr>
-</thead>
-<tbody>
-<div *ngFor="let program of programs">
-  <tr *ngIf="!program.editing">
-    <td>{{program.name}}</td>
-    <td>{{program.percent}}</td>
-    <td>{{program.target}}</td>
-    <td>{{program.pos}}</td>
-    <td><button (click)="edit(program)">edit</button></td>
-    <td><button (click)="delete(program)">delete</button></td>
-  </tr>
-  <tr *ngIf="program.editing" >
-    <td colspan="6"><edit-program [program]="program"></edit-program></td>
-  </tr>
+  <div class="row">
+    <div class="col-md-2">Name</div>
+    <div class="col-md-2">Discount</div>
+    <div class="col-md-2">Target</div>
+    <div class="col-md-2">POS Nr.</div>
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-2">&nbsp;</div>
 </div>
-</tbody>
-</table>`
+<div *ngFor="let program of programs">
+  <div class="row" *ngIf="!program.editing">
+    <div class="col-md-2">{{program.name}}</div>
+    <div class="col-md-2">{{program.percent}}</div>
+    <div class="col-md-2">{{program.target}}</div>
+    <div class="col-md-2">{{program.pos}}</div>
+    <div class="col-md-2 clickable text-success" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> Edit</div>
+    <div class="col-md-2 clickable text-danger" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> Delete</div>
+  </div>
+  <div class="row" *ngIf="program.editing" >
+    <div class="col-md-8"><edit-program [program]="program"></edit-program></div>
+  </div>
+</div>
+`
 })
 export class AllProgramsComponent {
   private programs;

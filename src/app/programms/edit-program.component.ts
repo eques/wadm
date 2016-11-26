@@ -6,12 +6,34 @@ import { Program } from "./program";
   selector: "edit-program",
   template: `
   <form (ngSubmit)="save()">
-    <input name="name" [(ngModel)]="program.name" type="text" placeholder="name"><br>
-    <input name="percent" [(ngModel)]="program.percent" type="text" placeholder="%"><br>
-    <input name="target" [(ngModel)]="program.target" type="text" placeholder="target"><br>
-    <input name="pos" [(ngModel)]="program.pos" type="text" placeholder="POS nr."><br>
-    <button type="submit">save</button>
-    <button (click)="cancel()">cancel</button>
+    <div class="row form-group">
+      <div class="col-md-4">
+        <input name="name" class="form-control" [(ngModel)]="program.name" type="text" placeholder="name">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-4">
+        <input name="percent" class="form-control" [(ngModel)]="program.percent" type="text" placeholder="%">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-4">
+        <input name="target" class="form-control" [(ngModel)]="program.target" type="text" placeholder="target">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-4">
+        <input name="pos" class="form-control" [(ngModel)]="program.pos" type="text" placeholder="POS nr.">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <button class="btn btn-success" type="submit">save</button>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-warning" (click)="cancel()">cancel</button>
+      </div>
+    </div>
   </form>
 `
 })

@@ -16,11 +16,11 @@ export class ExampleService extends GeneralHttpService {
   }
 
   create_prog(): Promise<Response> {
-    return this.post("/api/program/create", {});
+    return this.post("/api/program/create", {name: "doge", discount: "20", target: 10, pos_nr: "0001"});
   }
 
   login(): Promise<Response> {
-    return this.post("/api/business/login", {username: "oskars20@yopmail.com", password: "123456"});
+    return this.post("/api/business/login", {username: "oskars2-1@yopmail.com", password: "123456"});
   }
 
   fideboxLogin(): Promise<Response> {

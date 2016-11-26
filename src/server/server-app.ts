@@ -7,6 +7,7 @@ var request = require('request');
 const dev_key = "fidebox123456789012345";
 var wtoken = "";
 var walmoo_id;
+var current_business;
 
 const app = express();
 app.use(body_parser.urlencoded({extended : true}));
@@ -193,7 +194,8 @@ app.post("/api/business/register", (req, res) => {
               },
               afterRule: {
                 name: "default prog rule",
-                unit: "ACTIVITY"
+                unit: "ACTIVITY",
+                choices: 1
               },
               partnerships: [
                 {admin: true,
@@ -215,7 +217,6 @@ app.post("/api/business/register", (req, res) => {
                 res.status(httpResponse.statusCode).send(body);
                 return;
               }
-              console.log(body);
               let default_prog_id = body.id;
               let after_rule_id = body.afterRuleId;
               MongoClient.connect(mongo_uri, function(err, db) {
@@ -227,6 +228,7 @@ app.post("/api/business/register", (req, res) => {
                   default_prog_id: default_prog_id,
                   after_rule_id: after_rule_id
                 };
+                current_business = business_data;
                 insertBusiness(business_data, db, function() {
                   db.close();
                   console.log("Data saved to database");
@@ -265,24 +267,83 @@ app.post("/api/business/login", (req, res) => {
     }
     wtoken = body.authToken;
     walmoo_id = body.user.businessId;
-    var response: JsonResponse = {
-      status: 200,
-      payload: "OK"
-    };
-    res.json(response);
+    MongoClient.connect(mongo_uri, function(err, db) {
+      assert.equal(null, err);
+      findBusiness(walmoo_id, db, function(doc) {
+        db.close();
+        if (typeof(doc) !== 'undefined') {
+          current_business = doc;
+          var response: JsonResponse = {
+            status: 200,
+            payload: "OK"
+          };
+          res.json(response);
+        } else {
+          var response: JsonResponse = {
+            status: 404,
+            payload: "Business not found."
+          };
+          res.json(response);
+        }
+      });
+    });
   });
 });
 
 // Create new program in Wapi with partnership and rule
 app.post("/api/program/create", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to create new program with partnership, correct rule and custom field
-  // let program = {
-  //   name: res.body.name,
-  //   discount: res.body.discount,
-  //   target: res.discount.target,
-  //   pos_nr: res.body.pos_nr
-  // };
+  let program = {
+    name: req.body.name,
+    discount: req.body.discount,
+    target: req.body.target,
+    pos_nr: req.body.pos_nr
+  };
+
+  let program_data = {
+    name: program.name,
+    priority: 0,
+    unit: "ACTIVITY",
+    amount: program.target,
+    totals: true,
+    ruleId: current_business.after_rule_id,
+    program: {
+      customFields: [
+        {cfKey: "pos_nr", cfValue: program.pos_nr },
+        {cfKey: "discount", cfValue: program.discount }
+        ],
+      active: true,
+      type: "STATUS",
+      name: {
+        lv: "bronze",
+        ru: "bronze",
+        en: "bronze"
+      },
+      partnerships: [{admin: true, referenceId: walmoo_id}]
+    }
+  };
+  console.log(JSON.stringify(program_data));
+  var options = {
+    uri: "http://api2.walmoo.com/resources/wal-program/rules",
+    method: "POST",
+    json: program_data,
+    headers: {
+      "wtoken": wtoken,
+    },
+  };
+
+  // ---=== CREATE NEW PROGRAM
+  request(options, function(err, httpResponse, body){
+    if (httpResponse.statusCode !== 200) {
+      res.status(httpResponse.statusCode).send(body);
+      return;
+    }
+
+    var response: JsonResponse = {
+      status: 200,
+      payload: {}
+    };
+    res.json(response);
+  });
 });
 
 // Create new program in Wapi with partnership and rule
@@ -350,7 +411,6 @@ app.post("/api/fidebox/activate", (req, res) => {
 
   // ---=== CREATE TERMINAL-DEVICE LINK
   request(options, function(err, httpResponse, body){
-    console.log(body);
     if (httpResponse.statusCode !== 200) {
       res.status(httpResponse.statusCode).send(body);
       return;
