@@ -6,23 +6,32 @@ import { Program } from "./program";
   selector: "all-programs",
   template: `
 <table>
+<thead>
 <tr>
   <th>name</th>
   <th>customFields</th>
   <th>amount</th>
   <th>unit</th>
+  <th>a</th>
+  <th>a</th>
 </tr>
-<tr *ngFor="let program of programs">
-<div *ngIf="!program.editing">
-  <td>{{program.name}}</td>
-  <td>{{program.customFields}}</td>
-  <td>{{program.amount}}</td>
-  <td>{{program.unit}}</td>
-  <td><button (click)="edit(program)">edit</button></td>
-  <td><button (click)="delete(program)">delete</button></td>
+</thead>
+<tbody>
+<div *ngFor="let program of programs">
+  <tr *ngIf="!program.editing">
+    <td>{{program.name}}</td>
+    <td>{{program.customFields}}</td>
+    <td>{{program.amount}}</td>
+    <td>{{program.unit}}</td>
+    <td><button (click)="edit(program)">edit</button></td>
+    <td><button (click)="delete(program)">delete</button></td>
+  </tr>
+  <tr *ngIf="program.editing" >
+    <td colspan="6">lala</td>
+  </tr>
 </div>
-  <td colspan="6" *ngIf="program.editing">lala</td>
-</tr></table>`
+</tbody>
+</table>`
 })
 export class AllProgramsComponent {
   private programs;

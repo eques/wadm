@@ -98,7 +98,6 @@ app.post("/api/business/register", (req, res) => {
     username: req.body.username,
     password: req.body.password
   };
-  console.log(wapi_data);
   var options = {
     uri: "http://api2.walmoo.com/resources/wal-core/auths/register",
     method: "POST",
@@ -217,7 +216,6 @@ app.post("/api/business/login", (req, res) => {
     }
     wtoken = body.authToken;
     walmoo_id = body.user.businessId;
-    console.log(wtoken);
     var response: JsonResponse = {
       status: 200,
       payload: "OK"

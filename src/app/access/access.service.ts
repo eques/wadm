@@ -8,7 +8,8 @@ import { AppState } from "../shared/app.state";
 export class AccessService extends GeneralHttpService {
   private paths = {
     activateFidebox: "some-api/test",
-    register: "/api/business/register"
+    register: "/api/business/register",
+    login: "/api/business/login"
   };
 
   constructor(http: Http,
@@ -16,11 +17,14 @@ export class AccessService extends GeneralHttpService {
     super(http);
   }
 
-  login(): Promise<Response> {
-    // TODO: implement me
-    console.log("try login");
+  login(credentials): Promise<Response> {
+    let params = {
+      username: credentials.username,
+      password: credentials.password
+    };
+
     this.appState.isLoggedIn = true;
-    return Promise.resolve({status: 200});
+    return this.post(this.paths.login, params);
   }
 
   signUp(credentials): Promise<Response> {

@@ -43,7 +43,7 @@ export class GetAccessComponent {
   }
 
   login() {
-    this.accessService.login()
+    this.accessService.login(this.credentials)
       .catch(err => console.log(err));
   }
 
