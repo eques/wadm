@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { FideboxService } from "./fidebox.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { FideboxService } from "./fidebox.service";
           #regFidebox="ngForm">
       <div *ngIf="!regFidebox?.submitted" class="form-group row">
         <div class="col-md-4">
-          <input type="text" class="form-control form-control-lg" placeholder="{{'activate-fidebox.placeholder-enter_serial_numb' | translate}}">
+          <input type="text" [(ngModel)]="serial" name="serial" class="form-control form-control-lg" placeholder="{{'activate-fidebox.placeholder-enter_serial_numb' | translate}}">
         </div>
         <button type="submit" class="col-md-2 btn btn-primary">{{"activate-fidebox.button-activate" | translate}}</button>
       </div>
@@ -30,10 +30,13 @@ export class ActivateFideboxComponent {
 
   private response: any;
 
+  @Input()
+  private serial: string;
+
   constructor(private fideboxService: FideboxService) {}
 
   registerNewFidebox() {
-    this.fideboxService.activateFidebox()
+    this.fideboxService.activateFidebox(this.serial)
       .then(res => this.response = res)
       .catch(err => this.response = err);
   }

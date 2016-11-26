@@ -6,16 +6,14 @@ import "rxjs";
 @Injectable()
 export class FideboxService extends GeneralHttpService {
   private paths = {
-    activateFidebox: "some-api/test"
+    activateFidebox: "/api/fidebox/activate"
   };
 
   constructor(http: Http) {
     super(http);
   }
 
-  activateFidebox(): Promise<Response> {
-    // TODO: implement me
-    // return this.post(this.paths.activateFidebox, {lala: "lala"});
-    return Promise.resolve({status: 200});
+  activateFidebox(serial: string): Promise<Response> {
+    return this.post(this.paths.activateFidebox, {serial: serial});
   }
 }
