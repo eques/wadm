@@ -28,9 +28,9 @@ export class EditProgramComponent implements OnInit {
     this.bcProgram = Object.assign({}, this.program);
   }
 
-  save(program: Program) {
-    this.programService.save(program)
-      .then(res => program.editing = false)
+  save() {
+    this.programService.save(this.program)
+      .then(res => this.program.editing = false)
       .catch(err => console.log(err));
   }
 
