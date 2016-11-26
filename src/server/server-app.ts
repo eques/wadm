@@ -473,6 +473,15 @@ app.get("/api/program/list", (req, res) => {
       }
     }
 
+    function compare(a,b) {
+      if (a.target < b.target)
+        return -1;
+      if (a.target > b.target)
+        return 1;
+      return 0;
+    }
+    
+    status_list.sort(compare);
     var response: JsonResponse = {
       status: 200,
       payload: status_list
