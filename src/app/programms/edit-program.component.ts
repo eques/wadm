@@ -55,6 +55,9 @@ export class EditProgramComponent implements OnInit {
   @Input()
   private program: Program;
 
+  @Input()
+  private programs: Program[];
+
   private bcProgram: Program;
 
   constructor(private programService: ProgramService) {}
@@ -65,12 +68,18 @@ export class EditProgramComponent implements OnInit {
 
   save() {
     this.programService.save(this.program)
-      .then(res => this.program.editing = false)
+      .then(res => {
+        this.programs.splice(-1,1);
+        this.programs.push(res.json());
+        this.program.editing = false
+      })
       .catch(err => console.log(err));
   }
 
   cancel() {
     Object.assign(this.program, this.bcProgram);
+    console.log(this.programs);
+    this.programs.splice(-1,1);
     this.program.editing = false;
   }
 }

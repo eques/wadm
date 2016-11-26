@@ -46,13 +46,9 @@ export class GetAccessComponent {
   signup() {
     this.accessService.signUp(this.credentials)
       .then(res => {
-        if (res.status === 200) {
-          this.appState.isLoggedIn = true;
-          this.authError = false;
-          this.router.navigate([programsRoutes.moduleRoot.path]);
-        } else {
-          this.authError = true;
-        }
+        this.appState.isLoggedIn = true;
+        this.authError = false;
+        this.router.navigate([programsRoutes.moduleRoot.path]);
       })
       .catch(err => {
         this.authError = true;

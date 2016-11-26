@@ -27,7 +27,7 @@ import { Program } from "./program";
     <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
   </div>
   <div class="row" *ngIf="program.editing" >
-    <div class="col-md-8"><edit-program [program]="program"></edit-program></div>
+    <div class="col-md-8"><edit-program [program]="program" [programs]="programs"></edit-program></div>
   </div>
 </div>
 `
@@ -38,7 +38,7 @@ export class AllProgramsComponent {
   constructor(private programService: ProgramService) {
     this.programService.getAllProgramms()
       .then(res => {
-        this.programs = res.json().payload
+        this.programs = res.json()
 
       })
       .then(() => this.programs.map(p => p.editing = false))

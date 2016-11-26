@@ -26,12 +26,6 @@ export class ProgramService extends GeneralHttpService {
   }
 
   getAllProgramms(): Promise<Response> {
-    let programs = [
-      new Program(),
-      new Program(),
-      new Program()
-    ];
-
     return this.get(this.paths.getAllPrograms);
   }
 

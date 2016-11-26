@@ -1,7 +1,6 @@
 import * as express from "express";
 import * as mongo from "mongodb";
 import { resolve } from "path";
-import { JsonResponse } from "./common";
 var body_parser = require("body-parser");
 var request = require('request');
 const dev_key = "fidebox123456789012345";
@@ -82,14 +81,6 @@ var findFidebox = function(serial, db, callback) {
     }
   });
 };
-
-app.post("/some-api/test", (req, res) => {
-  var response: JsonResponse = {
-    status: 200,
-    payload: "Hello from api"
-  };
-  res.json(response);
-});
 
 // Creates new business, admin and fidebox users, save info about business in database
 // TODO "Rollback" transaction, if error code received, delete all data that was created before
@@ -255,12 +246,8 @@ app.post("/api/business/register", (req, res) => {
                   current_business = business_data;
                   insertBusiness(business_data, db, function() {
                     db.close();
-                    console.log("Data saved to database");
-                    var response: JsonResponse = {
-                      status: 200,
-                      payload: "OK"
-                    };
-                    res.json(response);
+                    res.status(200).send("");
+                    return;
                   });
                 });
               });
@@ -298,17 +285,11 @@ app.post("/api/business/login", (req, res) => {
         db.close();
         if (typeof(doc) !== 'undefined') {
           current_business = doc;
-          var response: JsonResponse = {
-            status: 200,
-            payload: "OK"
-          };
-          res.json(response);
+          res.status(200).send("");
+          return;
         } else {
-          var response: JsonResponse = {
-            status: 404,
-            payload: "Business not found."
-          };
-          res.json(response);
+          res.status(404).send("Business not found.");
+          return;
         }
       });
     });
@@ -390,18 +371,12 @@ app.post("/api/program/save", (req, res) => {
               data["posNr"] = cf.cfValue;
             }
           }
-          var response: JsonResponse = {
-            status: 200,
-            payload: data
-          };
-          res.json(response);
+          res.status(200).send(data);
+          return;
         });
       } else {
-        var response: JsonResponse = {
-          status: 404,
-          payload: "Business not found."
-        };
-        res.json(response);
+        res.status(404).send("Business not found.");
+        return;
       }
     });
   });
@@ -424,11 +399,8 @@ app.post("/api/program/delete", (req, res) => {
       return;
     }
 
-    var response: JsonResponse = {
-      status: 200,
-      payload: "OK"
-    };
-    res.json(response);
+    res.status(200).send("");
+    return;
   });
 });
 
@@ -482,11 +454,8 @@ app.get("/api/program/list", (req, res) => {
     }
 
     status_list.sort(compare);
-    var response: JsonResponse = {
-      status: 200,
-      payload: status_list
-    };
-    res.json(response);
+    res.status(200).json(status_list);
+    return;
   });
 });
 
@@ -530,12 +499,8 @@ app.post("/api/fidebox/activate", (req, res) => {
       assert.equal(null, err);
       insertFidebox(walmoo_id, serial, db, function() {
         db.close();
-        console.log("Data saved to database");
-        var response: JsonResponse = {
-          status: 200,
-          payload: "OK"
-        };
-        res.json(response);
+        res.status(200).send("");
+        return;
       });
     });
   });
@@ -554,26 +519,17 @@ app.post("/api/fidebox/login", (req, res) => {
           findBusiness(doc.walmoo_id, db, function(doc) {
             db.close();
             if (typeof(doc) !== 'undefined') {
-              var response: JsonResponse = {
-                status: 200,
-                payload: doc.fidebox_token
-              };
-              res.json(response);
+              res.status(200).send(doc.fidebox_token);
+              return;
             } else {
-              var response: JsonResponse = {
-                status: 404,
-                payload: "Business not found."
-              };
-              res.json(response);
+              res.status(404).send("Business not found.");
+              return;
             }
           });
         });
       } else {
-        var response: JsonResponse = {
-          status: 404,
-          payload: "Device not found."
-        };
-        res.json(response);
+        res.status(404).send("Device not found.");
+        return;
       }
     });
   });

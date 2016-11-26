@@ -7,7 +7,6 @@ import { AppState } from "../shared/app.state";
 @Injectable()
 export class AccessService extends GeneralHttpService {
   private paths = {
-    activateFidebox: "some-api/test",
     register: "/api/business/register",
     login: "/api/business/login"
   };
