@@ -28,4 +28,10 @@ export class AccessService extends GeneralHttpService {
     this.appState.isLoggedIn = true;
     return Promise.resolve({status: 200});
   }
+
+  signOut(): Promise<Response> {
+    console.log("try sign out");
+    this.appState.isLoggedIn = false;
+    return Promise.resolve({status: 200});
+  }
 }

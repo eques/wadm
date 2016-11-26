@@ -25,15 +25,15 @@ export class ProgramService extends GeneralHttpService {
     return Promise.resolve();
   }
 
-  getAllProgramms(): Promise<Response> {
-    let programms = [
+  getAllProgramms(): Promise<Program[]> {
+    let programs = [
       new Program(),
       new Program(),
       new Program()
     ];
 
     // return this.post(this.paths.getAllPrograms, {});
-    return Promise.resolve(programms);
+    return Promise.resolve(programs);
   }
 
 }
