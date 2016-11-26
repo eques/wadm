@@ -50,6 +50,36 @@ var insertFidebox = function(walmoo_id, serial, db, callback) {
   });
 };
 
+var findBusiness = function(walmoo_id, db, callback) {
+  var cursor = db.collection('business').find( { "walmoo_id": walmoo_id } );
+  var sent = false;
+  cursor.each(function(err, doc) {
+    assert.equal(err, null);
+    if (doc != null && !sent) {
+      callback(doc);
+      sent = true;
+    }
+    if (!sent) {
+      callback();
+    }
+  });
+};
+
+var findFidebox = function(serial, db, callback) {
+  var cursor = db.collection('fidebox').find( { "serial": serial } );
+  var sent = false;
+  cursor.each(function(err, doc) {
+    assert.equal(err, null);
+    if (doc != null && !sent) {
+      callback(doc);
+      sent = true;
+    }
+    if (!sent) {
+      callback();
+    }
+  });
+};
+
 app.post("/some-api/test", (req, res) => {
   var response: JsonResponse = {
     status: 200,
@@ -313,14 +343,40 @@ app.post("/api/fidebox/activate", (req, res) => {
 
 // Check for existing fidebox login tokens (ask new from Wapi if necessary) and give it to fidebox
 app.post("/api/fidebox/login", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to create device and terminal
-  // TODO Save data about fidebox to database
-  var response: JsonResponse = {
-    status: 200,
-    payload: ""
-  };
-  res.json(response);
+  var serial = req.body.serial;
+  MongoClient.connect(mongo_uri, function(err, db) {
+    assert.equal(null, err);
+    findFidebox(serial, db, function(doc) {
+      db.close();
+      if (typeof(doc) !== 'undefined') {
+        MongoClient.connect(mongo_uri, function(err, db) {
+          assert.equal(null, err);
+          findBusiness(doc.walmoo_id, db, function(doc) {
+            db.close();
+            if (typeof(doc) !== 'undefined') {
+              var response: JsonResponse = {
+                status: 200,
+                payload: doc.fidebox_token
+              };
+              res.json(response);
+            } else {
+              var response: JsonResponse = {
+                status: 404,
+                payload: "Business not found."
+              };
+              res.json(response);
+            }
+          });
+        });
+      } else {
+        var response: JsonResponse = {
+          status: 404,
+          payload: "Device not found."
+        };
+        res.json(response);
+      }
+    });
+  });
 });
 
 app.listen(PORT, function () {

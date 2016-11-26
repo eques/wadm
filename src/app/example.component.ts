@@ -10,8 +10,10 @@ import { ExampleService } from "./example.service";
 export class ExampleComponent {
 
   constructor(private es: ExampleService) {
-    es.login().then(res =>
-      es.activate().then(res => console.log(res.json()))
-    );
+    // es.login().then(res =>
+    //   es.activate().then(res => console.log(res.json()))
+    // );
+
+    es.fidebox_login().then(res => console.log(res.json()))
   }
 }

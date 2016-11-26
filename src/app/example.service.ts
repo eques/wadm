@@ -18,4 +18,8 @@ export class ExampleService extends GeneralHttpService {
   login(): Promise<Response> {
     return this.post("/api/business/login", {username: "oskars20@yopmail.com", password: "123456"});
   }
+
+  fidebox_login(): Promise<Response> {
+    return this.post("/api/fidebox/login", {serial: "doge"});
+  }
 }
