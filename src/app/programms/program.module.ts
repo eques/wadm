@@ -7,10 +7,12 @@ import { programsRoutes } from "./programs-routes";
 import { AllProgramsComponent } from "./all-programs.component";
 import { SharedModule } from "../shared/shared.module";
 import { ProgramService } from "./programm.service";
+import { EditProgramComponent } from "./edit-program.component";
 
 @NgModule({
   declarations: [
-    AllProgramsComponent
+    AllProgramsComponent,
+    EditProgramComponent
   ],
   providers: [
     ProgramService

@@ -27,7 +27,7 @@ import { Program } from "./program";
     <td><button (click)="delete(program)">delete</button></td>
   </tr>
   <tr *ngIf="program.editing" >
-    <td colspan="6">lala</td>
+    <td colspan="6"><edit-program [program]="program"></edit-program></td>
   </tr>
 </div>
 </tbody>
@@ -45,11 +45,6 @@ export class AllProgramsComponent {
 
   edit(program: Program) {
     program.editing = true;
-  }
-
-  save(program: Program) {
-    this.programService.save(program)
-      .catch(err => console.log(err));
   }
 
   delete(program: Program) {

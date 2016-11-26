@@ -1,9 +1,9 @@
 export class Program {
   id: any;
   name: any = "blah blah";
-  customFields: any = "bebebe";
-  amount: any = 3;
-  unit: any = "check-ins"
+  percent: any = 15;
+  target: any = 3;
+  pos: any;
 
   editing: boolean = false;
 }

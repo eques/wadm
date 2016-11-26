@@ -21,5 +21,8 @@
     "button-login": "Login",
     "button-signup": "Sign up",
     "button-sign_out": "Sign out"
+  },
+  "edit-program": {
+
   }
 }
