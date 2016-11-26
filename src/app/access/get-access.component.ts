@@ -8,8 +8,8 @@ import { AppState } from "../shared/app.state";
   <form *ngIf="!appState.isLoggedIn">
     <input type="email" placeholder="{{'access.placeholder-enter_email' | translate}}">
     <input type="password" placeholder="{{'access.placeholder-enter_passw' | translate}}">
-    <button type="submit" (click)="signup()">{{"access.button-signup" | translate}}</button>
-    <button type="submit" (click)="login()">{{"access.button-login" | translate}}</button>
+    <button (click)="signup()">{{"access.button-signup" | translate}}</button>
+    <button (click)="login()">{{"access.button-login" | translate}}</button>
   </form>
   <button *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.button-sign_out" | translate}}</button>
 `

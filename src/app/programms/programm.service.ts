@@ -18,11 +18,11 @@ export class ProgramService extends GeneralHttpService {
   }
 
   save(program: Program): Promise<Response> {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
 
   delete(program: Program): Promise<Response>  {
-    return Promise.resolve();
+    return Promise.resolve({});
   }
 
   getAllProgramms(): Promise<Program[]> {

@@ -5,5 +5,5 @@ export class Program {
   amount: any = 3;
   unit: any = "check-ins"
 
-  editing?: boolean;
+  editing: boolean = false;
 }
