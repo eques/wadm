@@ -178,14 +178,33 @@ app.post("/api/business/register", (req, res) => {
 
 // Logs in user in Wapi and gets token for further requests
 app.post("/api/business/login", (req, res) => {
-  // TODO Get chosen dev key
-  // TODO Ask Wapi to log in user and get token
-  // TODO Save token and mark user authenticated
-  var response: JsonResponse = {
-    status: 200,
-    payload: {}
+  var wapi_data = {
+    devKey: dev_key,
+    username: req.body.username,
+    password: req.body.password
   };
-  res.json(response);
+  var options = {
+    uri: "http://api2.walmoo.com/resources/wal-core/auths/login",
+    method: "POST",
+    json: wapi_data
+  };
+  // ---=== LOG IN AUTH
+  request(options, function(err, httpResponse, body){
+    if (httpResponse.statusCode === 200) {
+      wtoken = body.authToken;
+      var response: JsonResponse = {
+        status: 200,
+        payload: "OK"
+      };
+      res.json(response);
+    } else {
+      var response: JsonResponse = {
+        status: httpResponse.statusCode,
+        payload: body
+      };
+      res.json(response);
+    }
+  });
 });
 
 // Create new program in Wapi with partnership and rule
