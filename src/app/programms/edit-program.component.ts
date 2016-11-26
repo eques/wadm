@@ -78,7 +78,6 @@ export class EditProgramComponent implements OnInit {
 
   cancel() {
     Object.assign(this.program, this.bcProgram);
-    console.log(this.programs);
     this.programs.splice(-1,1);
     this.program.editing = false;
   }
