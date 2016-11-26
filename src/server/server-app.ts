@@ -433,7 +433,7 @@ app.post("/api/program/delete", (req, res) => {
 });
 
 // Gets list of all business programs from Wapi
-app.post("/api/program/list", (req, res) => {
+app.get("/api/program/list", (req, res) => {
   var options = {
     uri: "http://api2.walmoo.com/resources/wal-program/rules?need=program,customFields,name",
     method: "GET",

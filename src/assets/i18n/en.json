@@ -17,6 +17,9 @@
       "sign-up": "Sign up",
       "login": "Login",
       "sing-out": "Sign out"
+    },
+    "messages": {
+      "error": "Oops! Something went wrong, please try again."
     }
   },
   "program": {

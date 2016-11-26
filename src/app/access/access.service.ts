@@ -23,7 +23,6 @@ export class AccessService extends GeneralHttpService {
       password: credentials.password
     };
 
-    this.appState.isLoggedIn = true;
     return this.post(this.paths.login, params);
   }
 
@@ -33,12 +32,10 @@ export class AccessService extends GeneralHttpService {
       password: credentials.password
     };
 
-    this.appState.isLoggedIn = true;
     return this.post(this.paths.register, params);
   }
 
   signOut(): Promise<Response> {
-    console.log("try sign out");
     this.appState.isLoggedIn = false;
     return Promise.resolve({status: 200});
   }

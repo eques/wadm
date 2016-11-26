@@ -32,8 +32,7 @@ export class ProgramService extends GeneralHttpService {
       new Program()
     ];
 
-    return this.post(this.paths.getAllPrograms, {});
-    // return Promise.resolve(programs);
+    return this.get(this.paths.getAllPrograms);
   }
 
 }

@@ -26,6 +26,7 @@ import { routes } from "../route";
   <button type="button" class="btn btn-primary" (click)="signup()">{{"access.buttons.sign-up" | translate}}</button>
   <button type="button" class="btn btn-success" (click)="login()">{{"access.buttons.login" | translate}}</button>
   </form>
+  <div class="alert alert-error" role="alert" *ngIf="authError">{{"access.messages.error" | translate}}</div>
   <button class="btn btn-danger" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.buttons.sing-out" | translate}}</button>
 `
 })
@@ -36,22 +37,44 @@ export class GetAccessComponent {
     password: <string> undefined
   };
 
+  private authError = false;
+
   constructor(private accessService: AccessService,
               private appState: AppState,
               private router: Router) {}
 
   signup() {
     this.accessService.signUp(this.credentials)
-      .then(res => this.router.navigate([programsRoutes.moduleRoot.path]))
-      .catch(err => console.log(err));
+      .then(res => {
+        if (res.status === 200) {
+          this.appState.isLoggedIn = true;
+          this.authError = false;
+          this.router.navigate([programsRoutes.moduleRoot.path]);
+        } else {
+          this.authError = true;
+        }
+      })
+      .catch(err => {
+        this.authError = true;
+        console.log(err)
+      });
   }
 
   login() {
     this.accessService.login(this.credentials)
       .then(res => {
-        this.router.navigateByUrl(programsRoutes.moduleRoot.path);
+        if (res.status === 200) {
+          this.appState.isLoggedIn = true;
+          this.authError = false;
+          this.router.navigateByUrl(programsRoutes.moduleRoot.path);
+        } else {
+          this.authError = true;
+        }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.authError = true;
+        console.log(err)
+      });
   }
 
   signOut() {
