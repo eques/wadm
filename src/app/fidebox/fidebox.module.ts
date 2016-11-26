@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
-import { HashLocationStrategy, LocationStrategy, CommonModule } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
 import { ActivateFideboxComponent } from "./activate-fidebox.component";
 import { fideboxRoutes } from "./fidebox-routes";
@@ -12,10 +12,7 @@ import { FideboxService } from "./fidebox.service";
   declarations: [
     ActivateFideboxComponent
   ],
-  providers: [
-    {provide: LocationStrategy, useClass: HashLocationStrategy },
-    FideboxService
-  ],
+  providers: [ FideboxService ],
   imports: [
     CommonModule,
     HttpModule,

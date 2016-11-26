@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
@@ -14,6 +13,7 @@ import { FooterComponent } from "./footer/footer.component";
 import { MainMenuComponent } from "./main-menu/main-menu.component";
 import { ProgrammModule } from "./programms/programm.module";
 import { FideboxModule } from "./fidebox/fidebox.module";
+import { AccessModule } from "./access/access.module";
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { FideboxModule } from "./fidebox/fidebox.module";
     SharedModule.forRoot(),
 
     FideboxModule,
-    ProgrammModule
+    ProgrammModule,
+    AccessModule
   ],
   bootstrap: [AppComponent],
 })
