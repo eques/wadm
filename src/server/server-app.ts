@@ -106,11 +106,7 @@ app.post("/api/business/register", (req, res) => {
   // ---=== REGISTER AUTH
   request(options, function(err, httpResponse, body){
     if (httpResponse.statusCode !== 200) {
-      var response: JsonResponse = {
-        status: httpResponse.statusCode,
-        payload: body || 'body undefined'
-      };
-      res.json(response);
+      res.status(httpResponse.statusCode).send(body);
       return;
     }
     var options = {
@@ -121,11 +117,7 @@ app.post("/api/business/register", (req, res) => {
     // ---=== LOG IN AUTH
     request(options, function(err, httpResponse, body){
       if (httpResponse.statusCode !== 200) {
-        var response: JsonResponse = {
-          status: httpResponse.statusCode,
-          payload: body || 'body undefined'
-        };
-        res.json(response);
+        res.status(httpResponse.statusCode).send(body);
         return;
       }
       wtoken = body.authToken;
@@ -150,11 +142,7 @@ app.post("/api/business/register", (req, res) => {
       // ---=== CREATE BUSINESS AND USER
       request(options, function(err, httpResponse, body){
         if (httpResponse.statusCode !== 200) {
-          var response: JsonResponse = {
-            status: httpResponse.statusCode,
-            payload: body || 'body undefined'
-          };
-          res.json(response);
+          res.status(httpResponse.statusCode).send(body);
           return;
         }
         walmoo_id = body.user.businessId;
@@ -174,11 +162,7 @@ app.post("/api/business/register", (req, res) => {
         // ---=== CREATE FIDEBOX AUTH
         request(options, function(err, httpResponse, body){
           if (httpResponse.statusCode !== 200) {
-            var response: JsonResponse = {
-              status: httpResponse.statusCode,
-              payload: body || 'body undefined'
-            };
-            res.json(response);
+            res.status(httpResponse.statusCode).send(body);
             return;
           }
           var options = {
@@ -189,11 +173,7 @@ app.post("/api/business/register", (req, res) => {
           // ---=== LOG IN AUTH
           request(options, function(err, httpResponse, body){
             if (httpResponse.statusCode !== 200) {
-              var response: JsonResponse = {
-                status: httpResponse.statusCode,
-                payload: body || 'body undefined'
-              };
-              res.json(response);
+              res.status(httpResponse.statusCode).send(body);
               return;
             }
             fidebox_token = body.authToken;
@@ -231,11 +211,7 @@ app.post("/api/business/login", (req, res) => {
   // ---=== LOG IN AUTH
   request(options, function(err, httpResponse, body){
     if (httpResponse.statusCode !== 200) {
-      var response: JsonResponse = {
-        status: httpResponse.statusCode,
-        payload: body || 'body undefined'
-      };
-      res.json(response);
+      res.status(httpResponse.statusCode).send(body);
       return;
     }
     wtoken = body.authToken;
@@ -325,26 +301,22 @@ app.post("/api/fidebox/activate", (req, res) => {
   // ---=== CREATE TERMINAL-DEVICE LINK
   request(options, function(err, httpResponse, body){
     console.log(body);
-    if (httpResponse.statusCode === 200) {
-      MongoClient.connect(mongo_uri, function(err, db) {
-        assert.equal(null, err);
-        insertFidebox(walmoo_id, serial, db, function() {
-          db.close();
-          console.log("Data saved to database");
-          var response: JsonResponse = {
-            status: 200,
-            payload: "OK"
-          };
-          res.json(response);
-        });
-      });
-    } else {
-      var response: JsonResponse = {
-        status: httpResponse.statusCode,
-        payload: body
-      };
-      res.json(response);
+    if (httpResponse.statusCode !== 200) {
+      res.status(httpResponse.statusCode).send(body);
+      return;
     }
+    MongoClient.connect(mongo_uri, function(err, db) {
+      assert.equal(null, err);
+      insertFidebox(walmoo_id, serial, db, function() {
+        db.close();
+        console.log("Data saved to database");
+        var response: JsonResponse = {
+          status: 200,
+          payload: "OK"
+        };
+        res.json(response);
+      });
+    });
   });
 });
 
