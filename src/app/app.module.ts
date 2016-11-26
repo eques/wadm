@@ -11,7 +11,7 @@ import { ExampleService } from "./example.service";
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { MainMenuComponent } from "./main-menu/main-menu.component";
-import { ProgrammModule } from "./programms/programm.module";
+import { ProgramModule } from "./programms/program.module";
 import { FideboxModule } from "./fidebox/fidebox.module";
 import { AccessModule } from "./access/access.module";
 
@@ -36,7 +36,7 @@ import { AccessModule } from "./access/access.module";
     SharedModule.forRoot(),
 
     FideboxModule,
-    ProgrammModule,
+    ProgramModule,
     AccessModule
   ],
   bootstrap: [AppComponent],

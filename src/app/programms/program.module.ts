@@ -3,13 +3,13 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { HashLocationStrategy, LocationStrategy, CommonModule } from "@angular/common";
-import { programmsRoutes } from "./programms-routes";
-import { AllProgrammsComponent } from "./all-programms.component";
+import { programsRoutes } from "./programs-routes";
+import { AllProgramsComponent } from "./all-programs.component";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
-    AllProgrammsComponent
+    AllProgramsComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy }
@@ -18,8 +18,8 @@ import { SharedModule } from "../shared/shared.module";
     CommonModule,
     HttpModule,
     FormsModule,
-    RouterModule.forChild([programmsRoutes.moduleRoot]),
+    RouterModule.forChild([programsRoutes.moduleRoot]),
     SharedModule
   ]
 })
-export class ProgrammModule {}
+export class ProgramModule {}

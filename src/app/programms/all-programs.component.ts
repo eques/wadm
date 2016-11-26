@@ -1,7 +1,9 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: "all-programms",
+  selector: "all-programs",
   template: `all-programms`
 })
-export class AllProgrammsComponent {}
+export class AllProgramsComponent {
+
+}
