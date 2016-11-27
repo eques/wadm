@@ -8,9 +8,6 @@ import { FideboxService } from "./fidebox.service";
     <form (ngSubmit)="registerNewFidebox()"
           #regFidebox="ngForm">
       <div *ngIf="!regFidebox?.submitted" class="form-group row">
-        <div class="col-md-2 text-right">
-          <label for="name">{{"fidebox.fields.serial" | translate}}</label>
-        </div>
         <div class="col-md-4">
           <input type="text" [(ngModel)]="serial" name="serial" class="form-control form-control-lg" placeholder="{{'fidebox.fields.serial' | translate}}">
         </div>

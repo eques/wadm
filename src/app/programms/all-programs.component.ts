@@ -19,6 +19,9 @@ import { Program } from "./program";
 </div>
 <div class="fide-table">
   <div *ngFor="let program of programs" class="fide-table-row">
+    <div class="fide-table-row" *ngIf="program.editing" >
+      <edit-program [program]="program" [programs]="programs"></edit-program>
+    </div>
     <div class="row" *ngIf="!program.editing">
       <div class="col-md-2">{{program.name}}</div>
       <div class="col-md-2">{{program.discount}}</div>
@@ -26,9 +29,6 @@ import { Program } from "./program";
       <div class="col-md-2">{{program.posNr}}</div>
       <div class="col-md-2 clickable text-success clickable" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
       <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
-    </div>
-    <div class="row" *ngIf="program.editing" >
-      <div class="col-md-8"><edit-program [program]="program" [programs]="programs"></edit-program></div>
     </div>
   </div>
 </div>
@@ -50,7 +50,7 @@ export class AllProgramsComponent {
   addNew() {
     let newProgram = new Program();
     newProgram.editing = true;
-    this.programs.push(newProgram);
+    this.programs.unshift(newProgram);
   }
 
   edit(program: Program) {
