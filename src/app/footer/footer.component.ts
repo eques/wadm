@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
   selector: "wfooter",
   template: `
 <div class="fide-footer">
-  Feeling lost? Visit <a href="www.fidebox.com">Fidebox.com</a>!      
+  {{"wfooter.feeling-lost" | translate}} <a href="http://www.fidebox.com" target="_blank">Fidebox.com</a>!      
 </div>
 `
 })
