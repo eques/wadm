@@ -25,12 +25,12 @@ if (process.env.NODE_ENV === "development") {
 }
 
 var MongoClient = mongo.MongoClient;
-var assert = require('assert');
+var assert = require("assert");
 var ObjectId = mongo.ObjectID;
-var mongo_uri = 'mongodb://localhost:27017/wadm';
+var mongo_uri = "mongodb://localhost:27017/wadm";
 
 var insertBusiness = function(business_data, db, callback) {
-  db.collection('business').insertOne( {
+  db.collection("business").insertOne( {
     "walmoo_id" : business_data.walmoo_id,
     "fidebox_username" : business_data.fidebox_username,
     "fidebox_token" : business_data.fidebox_token,
@@ -43,7 +43,7 @@ var insertBusiness = function(business_data, db, callback) {
 };
 
 var insertFidebox = function(walmoo_id, serial, db, callback) {
-  db.collection('fidebox').insertOne( {
+  db.collection("fidebox").insertOne( {
     "walmoo_id" : walmoo_id,
     "serial" : serial
   }, function(err, result) {
@@ -53,7 +53,7 @@ var insertFidebox = function(walmoo_id, serial, db, callback) {
 };
 
 var findBusiness = function(walmoo_id, db, callback) {
-  var cursor = db.collection('business').find( { "walmoo_id": walmoo_id } );
+  var cursor = db.collection("business").find( { "walmoo_id": walmoo_id } );
   var sent = false;
   cursor.each(function(err, doc) {
     assert.equal(err, null);
@@ -68,7 +68,7 @@ var findBusiness = function(walmoo_id, db, callback) {
 };
 
 var findFidebox = function(serial, db, callback) {
-  var cursor = db.collection('fidebox').find( { "serial": serial } );
+  var cursor = db.collection("fidebox").find( { "serial": serial } );
   var sent = false;
   cursor.each(function(err, doc) {
     assert.equal(err, null);
@@ -283,7 +283,7 @@ app.post("/api/business/login", (req, res) => {
       assert.equal(null, err);
       findBusiness(walmoo_id, db, function(doc) {
         db.close();
-        if (typeof(doc) !== 'undefined') {
+        if (typeof(doc) !== "undefined") {
           current_business = doc;
           res.status(200).send("");
           return;
@@ -311,7 +311,7 @@ app.post("/api/program/save", (req, res) => {
     assert.equal(null, err);
     findBusiness(walmoo_id, db, function(doc) {
       db.close();
-      if (typeof(doc) !== 'undefined') {
+      if (typeof(doc) !== "undefined") {
         current_business = doc;
         let program_data = {
           name: program.name,
@@ -513,12 +513,12 @@ app.post("/api/fidebox/login", (req, res) => {
     assert.equal(null, err);
     findFidebox(serial, db, function(doc) {
       db.close();
-      if (typeof(doc) !== 'undefined') {
+      if (typeof(doc) !== "undefined") {
         MongoClient.connect(mongo_uri, function(err, db) {
           assert.equal(null, err);
           findBusiness(doc.walmoo_id, db, function(doc) {
             db.close();
-            if (typeof(doc) !== 'undefined') {
+            if (typeof(doc) !== "undefined") {
               res.status(200).send(doc.fidebox_token);
               return;
             } else {
