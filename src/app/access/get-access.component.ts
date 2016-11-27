@@ -8,7 +8,7 @@ import { routes } from "../route";
 @Component({
   selector: "access",
   template: `
-  <form *ngIf="!appState.isLoggedIn" class="form-inline">
+  <form *ngIf="!appState.isLoggedIn" class="">
   <div class="form-group">
     <input type="email" 
            name="email"
@@ -23,11 +23,12 @@ import { routes } from "../route";
            [(ngModel)]="credentials.password"
            placeholder="{{'access.fields.password' | translate}}">
   </div>
-  <button type="button" class="btn btn-primary" (click)="signup()">{{"access.buttons.sign-up" | translate}}</button>
-  <button type="button" class="btn btn-success" (click)="login()">{{"access.buttons.login" | translate}}</button>
+
+  <button type="button" class="btn btn-success fide-btn" (click)="login()">{{"access.buttons.login" | translate}}</button>
+  <button type="button" class="btn btn-primary fide-btn" (click)="signup()">{{"access.buttons.sign-up" | translate}}</button>
   </form>
-  <div class="alert alert-error" role="alert" *ngIf="authError">{{"access.messages.error" | translate}}</div>
-  <button class="btn btn-danger" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.buttons.sing-out" | translate}}</button>
+  <div class="alert fide-alert" role="alert" *ngIf="authError">{{"access.messages.error" | translate}}</div>
+  <button class="btn btn-danger fide-btn" *ngIf="appState.isLoggedIn" (click)="signOut()">{{"access.buttons.sing-out" | translate}}</button>
 `
 })
 export class GetAccessComponent {

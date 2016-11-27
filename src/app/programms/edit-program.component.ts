@@ -5,7 +5,7 @@ import { Program } from "./program";
 @Component({
   selector: "edit-program",
   template: `
-  <form (ngSubmit)="save()">
+  <form (ngSubmit)="save()" class="fide-add-program-form">
     <div class="row form-group">
       <div class="col-md-2 text-right">
         <label for="name">{{"program.fields.name" | translate}}</label>
@@ -41,11 +41,12 @@ import { Program } from "./program";
     <div class="row form-group">
       <div class="col-md-2">&nbsp;</div>
       <div class="col-md-2">
-        <button class="btn btn-success" type="submit">{{"program.buttons.save" | translate}}</button>
+        <button class="btn btn-warning fide-warning fide-100" type="button" (click)="cancel()">{{"program.buttons.cancel" | translate}}</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-warning" type="button" (click)="cancel()">{{"program.buttons.cancel" | translate}}</button>
+        <button class="btn btn-success fide-success fide-100" type="submit">{{"program.buttons.save" | translate}}</button>
       </div>
+
     </div>
   </form>
 `

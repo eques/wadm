@@ -7,27 +7,29 @@ import { Program } from "./program";
   template: `
   <div class="row">
     <div class="col-md-9">&nbsp;</div>
-    <button class="btn btn-primary col-md-2" (click)="addNew()">{{"program.buttons.add-new" | translate}}</button>
+    <button class="btn btn-primary col-md-2 fide-button" (click)="addNew()">{{"program.buttons.add-new" | translate}}</button>
   </div>
-  <div class="row">
-    <div class="col-md-2">{{"program.fields.name" | translate}}</div>
-    <div class="col-md-2">{{"program.fields.discount" | translate}}</div>
-    <div class="col-md-2">{{"program.fields.target" | translate}}</div>
-    <div class="col-md-2">{{"program.fields.pos-nr" | translate}}</div>
+  <div class="row title-row">
+    <div class="col-md-2 row-title">{{"program.fields.name" | translate}}</div>
+    <div class="col-md-2 row-title">{{"program.fields.discount" | translate}}</div>
+    <div class="col-md-2 row-title">{{"program.fields.target" | translate}}</div>
+    <div class="col-md-2 row-title">{{"program.fields.pos-nr" | translate}}</div>
     <div class="col-md-2">&nbsp;</div>
     <div class="col-md-2">&nbsp;</div>
 </div>
-<div *ngFor="let program of programs">
-  <div class="row" *ngIf="!program.editing">
-    <div class="col-md-2">{{program.name}}</div>
-    <div class="col-md-2">{{program.discount}}</div>
-    <div class="col-md-2">{{program.target}}</div>
-    <div class="col-md-2">{{program.posNr}}</div>
-    <div class="col-md-2 clickable text-success clickable" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
-    <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
-  </div>
-  <div class="row" *ngIf="program.editing" >
-    <div class="col-md-8"><edit-program [program]="program" [programs]="programs"></edit-program></div>
+<div class="fide-table">
+  <div *ngFor="let program of programs" class="fide-table-row">
+    <div class="row" *ngIf="!program.editing">
+      <div class="col-md-2">{{program.name}}</div>
+      <div class="col-md-2">{{program.discount}}</div>
+      <div class="col-md-2">{{program.target}}</div>
+      <div class="col-md-2">{{program.posNr}}</div>
+      <div class="col-md-2 clickable text-success clickable" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
+      <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
+    </div>
+    <div class="row" *ngIf="program.editing" >
+      <div class="col-md-8"><edit-program [program]="program" [programs]="programs"></edit-program></div>
+    </div>
   </div>
 </div>
 `

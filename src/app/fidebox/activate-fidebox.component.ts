@@ -14,15 +14,15 @@ import { FideboxService } from "./fidebox.service";
         <div class="col-md-4">
           <input type="text" [(ngModel)]="serial" name="serial" class="form-control form-control-lg" placeholder="{{'fidebox.fields.serial' | translate}}">
         </div>
-        <button type="submit" class="col-md-2 btn btn-primary">{{"fidebox.buttons.activate" | translate}}</button>
+        <button type="submit" class="col-md-2 btn btn-primary fide-success">{{"fidebox.buttons.activate" | translate}}</button>
       </div>
       <div *ngIf="regFidebox?.submitted">
         <div class="row">
-          <div class="alert alert-success col-md-6" role="alert" *ngIf="response?.status === 200">{{"fidebox.messages.success" | translate}}</div>
-          <div class="alert alert-error col-md-6" role="alert" *ngIf="response?.status !== 200">{{"fidebox.messages.error" | translate}}</div>
+          <div class="alert no-shadows fide-alert-success col-md-6" role="alert" *ngIf="response?.status === 200">{{"fidebox.messages.success" | translate}}</div>
+          <div class="alert no-shadows fide-alert-error col-md-6" role="alert" *ngIf="response?.status !== 200">{{"fidebox.messages.error" | translate}}</div>
         </div>
         <div class="row">
-          <button type="reset" class="btn btn-success col-md-3">{{"fidebox.buttons.another" | translate}}</button>
+          <button type="reset" class="btn fide-success col-md-3">{{"fidebox.buttons.another" | translate}}</button>
         </div>
       </div>
     </form>

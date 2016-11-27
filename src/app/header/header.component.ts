@@ -4,7 +4,8 @@ import { Component } from "@angular/core";
   selector: "wheader",
   template: `
   <div class="page-header">
-    <h1>{{"wheader.title-dashboard" | translate}}</h1>
+    <div class="main-logo"></div>
+    <div class="subtitle">{{"wheader.title-dashboard" | translate}}</div>
     <access></access>
   </div>
 `
