@@ -12,14 +12,14 @@ import { routes } from "../route";
   <div class="form-group">
     <input type="email" 
            name="email"
-           class="form-control"
+           class="form-control fide-login-form"
            [(ngModel)]="credentials.username"
            placeholder="{{'access.fields.email' | translate}}">
   </div>
   <div class="form-group">
     <input type="password"
            name="password"
-           class="form-control"
+           class="form-control fide-login-form"
            [(ngModel)]="credentials.password"
            placeholder="{{'access.fields.password' | translate}}">
   </div>

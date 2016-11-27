@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
 import { ProgramService } from "./programm.service";
 import { Program } from "./program";
 
@@ -31,6 +31,8 @@ export class EditProgramComponent implements OnInit {
   @Input()
   private programs: Program[];
 
+  @Output() close: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   private bcProgram: Program;
 
   constructor(private programService: ProgramService) {}
@@ -42,9 +44,12 @@ export class EditProgramComponent implements OnInit {
   save() {
     this.programService.save(this.program)
       .then(res => {
-        this.programs.splice(-1,1);
-        this.programs.push(res.json());
-        this.program.editing = false
+        if (!this.program.hasOwnProperty("programId")) {
+          this.programs.shift();
+          this.programs.push(res.json());
+        }
+        this.program.editing = false;
+        this.close.emit(false);
       })
       .catch(err => console.log(err));
   }
@@ -52,8 +57,9 @@ export class EditProgramComponent implements OnInit {
   cancel() {
     Object.assign(this.program, this.bcProgram);
     if (!this.program.hasOwnProperty("programId")) {
-      this.programs.splice(-1,1);
+      this.programs.shift();
     }
     this.program.editing = false;
+    this.close.emit(false);
   }
 }

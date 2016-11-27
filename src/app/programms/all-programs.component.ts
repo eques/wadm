@@ -5,7 +5,7 @@ import { Program } from "./program";
 @Component({
   selector: "all-programs",
   template: `
-  <div class="row">
+  <div class="row" *ngIf="!editMode">
     <div class="col-md-9">&nbsp;</div>
     <button class="btn btn-primary col-md-2 fide-button" (click)="addNew()">{{"program.buttons.add-new" | translate}}</button>
   </div>
@@ -20,15 +20,15 @@ import { Program } from "./program";
 <div class="fide-table">
   <div *ngFor="let program of programs" class="fide-table-row">
     <div class="fide-table-row" *ngIf="program.editing" >
-      <edit-program [program]="program" [programs]="programs"></edit-program>
+      <edit-program [program]="program" [programs]="programs" (close)="onEditClose($event)"></edit-program>
     </div>
     <div class="row" *ngIf="!program.editing">
       <div class="col-md-2">{{program.name}}</div>
       <div class="col-md-2">{{program.discount}}</div>
       <div class="col-md-2">{{program.target}}</div>
       <div class="col-md-2">{{program.posNr}}</div>
-      <div class="col-md-2 clickable text-success clickable" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
-      <div class="col-md-2 clickable text-danger clickable" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
+      <div class="col-md-2 clickable text-success clickable" *ngIf="!editMode" (click)="edit(program)"><span class="glyphicon glyphicon-pencil"></span> {{"program.buttons.edit" | translate}}</div>
+      <div class="col-md-2 clickable text-danger clickable" *ngIf="!editMode" (click)="delete(program)"><span class="glyphicon glyphicon-remove"></span> {{"program.buttons.delete" | translate}}</div>
     </div>
   </div>
 </div>
@@ -36,6 +36,7 @@ import { Program } from "./program";
 })
 export class AllProgramsComponent {
   private programs;
+  private editMode = false;
 
   constructor(private programService: ProgramService) {
     this.programService.getAllProgramms()
@@ -47,13 +48,19 @@ export class AllProgramsComponent {
       .catch(err => console.log(err));
   }
 
+  onEditClose(b:boolean):void {
+    this.editMode = b;
+  }
+
   addNew() {
+    this.editMode = true;
     let newProgram = new Program();
     newProgram.editing = true;
     this.programs.unshift(newProgram);
   }
 
   edit(program: Program) {
+    this.editMode = true;
     program.editing = true;
   }
 
